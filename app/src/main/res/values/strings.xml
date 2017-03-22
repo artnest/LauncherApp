@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Launcher</string>
+    <string name="welcome">Welcome!</string>
+    <string name="next_text">next</string>
+    <string name="menu_item_info">Info</string>
+    <string name="menu_item_delete">Delete</string>
+
+    <integer-array name="img_id_arr">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+</resources>
