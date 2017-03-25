@@ -24,7 +24,7 @@ public class ApplicationFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 2;
+    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -50,6 +50,14 @@ public class ApplicationFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
+
+        for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
+            if (index > 5) {
+                index = 1;
+            }
+            int imageResource = getActivity().getResources().getIdentifier("@drawable/app_" + index, "drawable", getActivity().getPackageName());
+            DummyContent.populate(imageResource, i + 1);
         }
     }
 

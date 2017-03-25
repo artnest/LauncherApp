@@ -6,8 +6,6 @@
     android:name="artnest.launcher.ApplicationFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
+    app:layoutManager="GridLayoutManager"
     tools:context="artnest.launcher.ApplicationFragment"
     tools:listitem="@layout/fragment_application_item" />

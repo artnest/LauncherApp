@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_width">300dp</dimen>
-    <integer name="drawer_columns">2</integer>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="icon_margin">16dp</dimen>
+    <dimen name="icon_margin_to_text">8dp</dimen>
+    <integer name="drawer_columns">4</integer>
 </resources>

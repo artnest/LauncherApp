@@ -3,14 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/icon_margin"
+        android:layout_marginRight="@dimen/icon_margin"
+        android:layout_marginTop="@dimen/icon_margin"
+        android:layout_marginBottom="@dimen/icon_margin_to_text"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:contentDescription="@string/item_icon_description" />
 
@@ -18,7 +20,6 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:background="@color/colorAccent"
+        android:layout_marginBottom="@dimen/text_margin"
         android:textAppearance="?android:attr/textAppearanceListItem" />
 </LinearLayout>
