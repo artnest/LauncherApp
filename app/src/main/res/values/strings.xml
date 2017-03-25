@@ -4,6 +4,7 @@
     <string name="next_text">next</string>
     <string name="menu_item_info">Info</string>
     <string name="menu_item_delete">Delete</string>
+    <string name="item_icon_description">Application Icon</string>
 
     <integer-array name="img_id_arr">
         <item>0</item>
