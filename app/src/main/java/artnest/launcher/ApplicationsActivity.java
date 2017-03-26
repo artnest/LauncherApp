@@ -14,18 +14,11 @@ public class ApplicationsActivity extends AppCompatActivity implements Applicati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applications);
 
-        /*if (DummyContent.ITEMS.isEmpty()) { // TODO rework orientation change
-            for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
-                if (index > 5) {
-                    index = 1;
-                }
-                int imageResource = getResources().getIdentifier("@drawable/app_" + index, "drawable", getPackageName());
-                DummyContent.populate(imageResource, i + 1);
-            }
-        }*/
-
-        Fragment fragment = ApplicationFragment.newInstance(getResources().getInteger(R.integer.drawer_columns));
-        getSupportFragmentManager().beginTransaction().add(R.id.applications_activity, fragment).commit();
+        if (savedInstanceState == null) {
+//            Fragment fragment = ApplicationFragment.newInstance(getResources().getInteger(R.integer.drawer_columns));
+            Fragment fragment = ApplicationFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().add(R.id.activity_applications, fragment).commit();
+        }
     }
 
     @Override

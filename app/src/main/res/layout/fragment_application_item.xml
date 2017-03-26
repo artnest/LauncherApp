@@ -3,23 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:layout_margin="16dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="@dimen/icon_margin"
-        android:layout_marginRight="@dimen/icon_margin"
-        android:layout_marginTop="@dimen/icon_margin"
-        android:layout_marginBottom="@dimen/icon_margin_to_text"
-        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:padding="16dp"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/item_icon_description" />
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_margin"
+        android:background="@color/colorAccent"
+        android:gravity=""
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:ellipsize="end"
         android:textAppearance="?android:attr/textAppearanceListItem" />
 </LinearLayout>

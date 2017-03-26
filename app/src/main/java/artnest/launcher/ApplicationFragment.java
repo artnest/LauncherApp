@@ -34,30 +34,23 @@ public class ApplicationFragment extends Fragment {
     public ApplicationFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ApplicationFragment newInstance(int columnCount) {
-        ApplicationFragment fragment = new ApplicationFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    public static ApplicationFragment newInstance() {
+        return new ApplicationFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-
-        for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
-            if (index > 5) {
-                index = 1;
+        mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns);
+        if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
+            for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
+                if (index > 5) {
+                    index = 1;
+                }
+                int imageResource = getActivity().getResources().getIdentifier("@drawable/app_" + index, "drawable", getActivity().getPackageName());
+                DummyContent.populate(imageResource, i + 1);
             }
-            int imageResource = getActivity().getResources().getIdentifier("@drawable/app_" + index, "drawable", getActivity().getPackageName());
-            DummyContent.populate(imageResource, i + 1);
         }
     }
 

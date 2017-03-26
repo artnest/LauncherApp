@@ -35,7 +35,7 @@ public class DummyContent {
     }
 
     private static DummyItem createDummyItem(int id, int position) {
-        return new DummyItem(id, "Item " + position);
+        return new DummyItem(id, "ItemItemItem " + position);
     }
 
     /**
