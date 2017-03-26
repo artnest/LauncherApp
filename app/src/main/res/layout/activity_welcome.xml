@@ -8,24 +8,22 @@
 
     <ImageView
         android:id="@+id/launcher_icon"
-        android:layout_width="@dimen/icon_welcome_size"
-        android:layout_height="@dimen/icon_welcome_size"
+        android:layout_width="@dimen/welcome_icon_size"
+        android:layout_height="@dimen/welcome_icon_size"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="@dimen/welcome_icon_margin"
         android:adjustViewBounds="true"
-        android:background="@color/colorPrimary"
         android:contentDescription="@string/launcher_logo_description"
         android:src="@drawable/icon_512" />
 
     <TextView
         android:id="@+id/welcome_text"
-        android:layout_width="@dimen/text_width"
+        android:layout_width="@dimen/welcome_text_width"
         android:layout_height="wrap_content"
         android:layout_below="@id/launcher_icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorAccent"
-        android:text="@string/welcome"
+        android:layout_marginBottom="@dimen/welcome_text_margin"
+        android:text="Welcome"
         android:textAlignment="center"
         android:textAppearance="?android:textAppearanceLarge"
         android:textSize="32sp" />

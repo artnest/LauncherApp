@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_width">450dp</dimen>
+    <dimen name="welcome_text_width">450dp</dimen>
     <dimen name="icon_padding">34dp</dimen>
+    <dimen name="welcome_icon_margin">20dp</dimen>
+    <dimen name="welcome_text_margin">12dp</dimen>
+    <dimen name="welcome_icon_size">256dp</dimen>
     <integer name="icon_scale">3</integer>
-    <dimen name="icon_welcome_size">256dp</dimen>
-    <integer name="drawer_columns">5</integer>
+    <integer name="drawer_columns">6</integer>
 </resources>
