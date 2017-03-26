@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import artnest.launcher.ApplicationFragment.OnListFragmentInteractionListener;
+import artnest.launcher.AppDrawerFragment.OnListFragmentInteractionListener;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
 /**
@@ -21,12 +21,12 @@ import artnest.launcher.dummy.DummyContent.DummyItem;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class ApplicationRecyclerViewAdapter extends RecyclerView.Adapter<ApplicationRecyclerViewAdapter.ViewHolder> {
+public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawerRecyclerViewAdapter.ViewHolder> {
 
     public final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public ApplicationRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public AppDrawerRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -34,7 +34,7 @@ public class ApplicationRecyclerViewAdapter extends RecyclerView.Adapter<Applica
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_application_item, parent, false);
+                .inflate(R.layout.fragment_app_drawer_item, parent, false);
         return new ViewHolder(view);
     }
 

@@ -10,11 +10,11 @@
         android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleX="2"
-        android:scaleY="2"
+        android:scaleX="@integer/icon_scale"
+        android:scaleY="@integer/icon_scale"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
-        android:padding="16dp"
+        android:padding="@dimen/icon_padding"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/item_icon_description" />
 
@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:gravity=""
         android:maxLines="1"
         android:textAlignment="center"
         android:ellipsize="end"

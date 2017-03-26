@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_width">300dp</dimen>
+    <dimen name="icon_padding">16dp</dimen>
+    <integer name="icon_scale">2</integer>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="icon_margin">16dp</dimen>
     <dimen name="icon_margin_to_text">8dp</dimen>
+    <dimen name="icon_welcome_size">256dp</dimen>
     <integer name="drawer_columns">4</integer>
 </resources>

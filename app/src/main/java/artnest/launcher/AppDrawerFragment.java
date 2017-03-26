@@ -19,10 +19,8 @@ import artnest.launcher.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ApplicationFragment extends Fragment {
+public class AppDrawerFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -31,11 +29,7 @@ public class ApplicationFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ApplicationFragment() {
-    }
-
-    public static ApplicationFragment newInstance() {
-        return new ApplicationFragment();
+    public AppDrawerFragment() {
     }
 
     @Override
@@ -48,6 +42,7 @@ public class ApplicationFragment extends Fragment {
                 if (index > 5) {
                     index = 1;
                 }
+
                 int imageResource = getActivity().getResources().getIdentifier("@drawable/app_" + index, "drawable", getActivity().getPackageName());
                 DummyContent.populate(imageResource, i + 1);
             }
@@ -57,7 +52,7 @@ public class ApplicationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_application_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_app_drawer_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -68,7 +63,7 @@ public class ApplicationFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ApplicationRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new AppDrawerRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }

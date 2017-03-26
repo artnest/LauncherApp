@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="artnest.launcher.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/launcher_icon"
+        android:layout_width="@dimen/icon_welcome_size"
+        android:layout_height="@dimen/icon_welcome_size"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/launcher_logo_description"
+        android:src="@drawable/icon_512" />
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="@dimen/text_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/launcher_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
+        android:text="@string/welcome"
+        android:textAlignment="center"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_text"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="@string/next_text" />
+
+</RelativeLayout>

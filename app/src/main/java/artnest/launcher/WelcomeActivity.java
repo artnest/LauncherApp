@@ -8,15 +8,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class WelcomeActivity extends AppCompatActivity {
-    private static final String TAG = "LauncherMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_welcome);
 
-        final Intent intent = new Intent(this, ApplicationsActivity.class);
-        Button nextButton = (Button) findViewById(R.id.next);
+        final Intent intent = new Intent(this, MainActivity.class);
+        Button nextButton = (Button) findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

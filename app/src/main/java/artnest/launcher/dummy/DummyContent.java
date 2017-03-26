@@ -23,7 +23,7 @@ public class DummyContent {
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    public static final int COUNT = 25;
+    public static final int COUNT = 25 * 4 * 10;
 
     public static void populate(int iconId, int position) {
         addItem(createDummyItem(iconId, position));

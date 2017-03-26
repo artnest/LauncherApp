@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="GridLayoutManager"
-    tools:context="artnest.launcher.ApplicationFragment"
-    tools:listitem="@layout/fragment_application_item" />
+    tools:context="artnest.launcher.AppDrawerFragment"
+    tools:listitem="@layout/fragment_app_drawer_item" />
