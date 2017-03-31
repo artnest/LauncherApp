@@ -6,4 +6,7 @@
     <string name="menu_item_delete">Delete</string>
     <string name="item_icon_description">Application Icon</string>
     <string name="launcher_logo_description">Launcher Logo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

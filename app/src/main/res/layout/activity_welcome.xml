@@ -23,7 +23,7 @@
         android:layout_below="@id/launcher_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/welcome_text_margin"
-        android:text="Welcome"
+        android:text="@string/welcome"
         android:textAlignment="center"
         android:textAppearance="?android:textAppearanceLarge"
         android:textSize="32sp" />
