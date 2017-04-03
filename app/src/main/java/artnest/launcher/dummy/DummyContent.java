@@ -35,12 +35,9 @@ public class DummyContent {
     }
 
     private static DummyItem createDummyItem(int id, int position) {
-        return new DummyItem(id, "ItemItemItem " + position);
+        return new DummyItem(id, "Item " + position);
     }
 
-    /**
-     * A dummy item representing a piece of content.
-     */
     public static class DummyItem {
         public final int iconId;
         public final String name;

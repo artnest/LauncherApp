@@ -6,6 +6,7 @@
     android:name="artnest.launcher.ApplicationFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/recycler_view_color"
     app:layoutManager="GridLayoutManager"
     tools:context="artnest.launcher.AppDrawerFragment"
     tools:listitem="@layout/fragment_app_drawer_item" />

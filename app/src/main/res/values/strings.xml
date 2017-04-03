@@ -7,6 +7,23 @@
     <string name="item_icon_description">Application Icon</string>
     <string name="launcher_logo_description">Launcher Logo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello Cloud Launcher!</string>
+    <string name="slide_1_desc">The prettiest launcher you have ever seen!</string>
+
+    <string name="slide_2_title">Light One</string>
+    <string name="slide_2_desc">Easy-to-use and as light as clouds!</string>
+
+    <string name="slide_3_title">Clearest Usage</string>
+    <string name="slide_3_desc">Use it the way you want with two grids!</string>
+
+    <string name="slide_4_title">Awesome Themes</string>
+    <string name="slide_4_desc">Pick any of the two themes!</string>
+
+    <string name="play_again_desc">To see Welcome Screen again, go to Settings -> Apps -> Cloud Launcher -> Clear Data</string>
+    <string name="play_again">Play Again</string>
 </resources>

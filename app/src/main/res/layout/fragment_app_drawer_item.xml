@@ -8,14 +8,10 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/item_icon_description"
-        android:padding="@dimen/icon_padding"
-        android:scaleType="centerInside"
-        android:scaleX="@integer/icon_scale"
-        android:scaleY="@integer/icon_scale" />
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/item_icon_description" />
 
     <TextView
         android:id="@+id/name"

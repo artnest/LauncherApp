@@ -16,11 +16,6 @@ import java.util.List;
 import artnest.launcher.AppDrawerFragment.OnListFragmentInteractionListener;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawerRecyclerViewAdapter.ViewHolder> {
 
     public final List<DummyItem> mValues;
@@ -48,8 +43,6 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }

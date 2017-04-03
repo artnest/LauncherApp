@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements AppDrawerFragment
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            Fragment fragment = new AppDrawerFragment();
+            Fragment fragment = AppDrawerFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.activity_main, fragment).commit();
         }
     }
