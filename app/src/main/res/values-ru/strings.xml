@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="slide_1_title">Привет, Cloud Launcher!</string>
+    <string name="menu_item_delete">Удалить</string>
+    <string name="menu_item_info">Инфо</string>
+    <string name="next">Далее</string>
+    <string name="skip">Пропустить</string>
+    <string name="slide_1_desc">Самый красивый лаунчер, который вы когда-либо видели!</string>
+    <string name="slide_2_desc">Удобный в использовании и легкий, как обалака!</string>
+    <string name="slide_2_title">Легкий малый</string>
+    <string name="slide_3_desc">Используйте лаунчер, как хотите вы, с возможностью выбора сетки!</string>
+    <string name="slide_3_title">Ясный и простой</string>
+    <string name="slide_4_desc">Выберите одну из двух доступных тем!</string>
+    <string name="slide_4_title">Крутые темы</string>
+    <string name="start">Понятно</string>
+</resources>

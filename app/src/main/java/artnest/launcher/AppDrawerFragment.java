@@ -32,7 +32,7 @@ public class AppDrawerFragment extends Fragment {
         mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns);
         if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
             for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
-                if (index > 5) {
+                if (index > 8) {
                     index = 1;
                 }
 

@@ -1,18 +1,16 @@
 <resources>
-    <string name="app_name">Cloud Launcher</string>
-    <string name="welcome">Welcome!</string>
-    <string name="next_text">next</string>
+    <string name="app_name" translatable="false">Cloud Launcher</string>
     <string name="menu_item_info">Info</string>
     <string name="menu_item_delete">Delete</string>
-    <string name="item_icon_description">Application Icon</string>
-    <string name="launcher_logo_description">Launcher Logo</string>
+    <string name="item_icon_description" translatable="false">Application Icon</string>
+    <string name="launcher_logo_description" translatable="false">Launcher Logo</string>
 
-    <string name="title_activity_welcome">Home Screen</string>
+    <string name="title_activity_welcome" translatable="false">Home Screen</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
 
-    <string name="slide_1_title">Hello Cloud Launcher!</string>
+    <string name="slide_1_title">Hello, Cloud Launcher!</string>
     <string name="slide_1_desc">The prettiest launcher you have ever seen!</string>
 
     <string name="slide_2_title">Light One</string>
@@ -23,7 +21,5 @@
 
     <string name="slide_4_title">Awesome Themes</string>
     <string name="slide_4_desc">Pick any of the two themes!</string>
-
-    <string name="play_again_desc">To see Welcome Screen again, go to Settings -> Apps -> Cloud Launcher -> Clear Data</string>
-    <string name="play_again">Play Again</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

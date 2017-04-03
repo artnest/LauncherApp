@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#5D4037</color>
     <color name="colorAccent">#FF9E80</color>
 
-    <color name="recycler_view_color">#BCAAA4</color>
+    <color name="recycler_view_color">#D7CCC8</color>
+    <!--<color name="recycler_view_color_dark">#BCAAA4</color>-->
 
     <!-- Screens background color-->
     <color name="bg_screen1">#80DDEA</color> <!--200-->
