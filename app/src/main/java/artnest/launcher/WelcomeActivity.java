@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class WelcomeActivity extends AppCompatActivity {
+
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private LinearLayout dotsLayout;

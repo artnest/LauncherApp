@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.util.Collections;
+import java.util.List;
+
 import artnest.launcher.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements AppDrawerFragment.OnListFragmentInteractionListener {

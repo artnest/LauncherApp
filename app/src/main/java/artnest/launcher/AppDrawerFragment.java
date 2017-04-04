@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import artnest.launcher.dummy.DummyContent;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
@@ -17,6 +21,9 @@ public class AppDrawerFragment extends Fragment {
 
     public static boolean standardGrid = true;
     public static int themeId = 0;
+
+    private static final int ICONS_COUNT = 8;
+    private List<Integer> imageResources = new LinkedList<>();
 
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -41,26 +48,28 @@ public class AppDrawerFragment extends Fragment {
                 getActivity().setTheme(R.style.AppThemeDark);
                 break;
         }
-        themeId = 0;
+        themeId = 0; // TODO use SharedPreferences
 
         if (standardGrid) {
             mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
         } else {
             mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
         }
-        standardGrid = true;
+        standardGrid = true; // TODO use SharedPreferences
+
+        for (int i = 0; i < ICONS_COUNT; i++) {
+            imageResources.add(getActivity().getResources().getIdentifier("@drawable/app_" + (i + 1),
+                                "drawable",
+                                getActivity().getPackageName()));
+        }
 
         if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
-            for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
-                if (index > 8) {
-                    index = 1;
-                }
+            for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
+                Collections.shuffle(imageResources);
 
-                int imageResource = getActivity().getResources()
-                        .getIdentifier("@drawable/app_" + index, "drawable",
-                                getActivity().getPackageName()); // get drawables to array before method
-                // TODO: 4/4/17 Generate ITEMS in static block
-                DummyContent.populate(imageResource, i + 1);
+                for (int k = 0; k < mColumnCount; k++) {
+                    DummyContent.populate(imageResources.get(k), i + 1 + k);
+                }
             }
         }
     }
