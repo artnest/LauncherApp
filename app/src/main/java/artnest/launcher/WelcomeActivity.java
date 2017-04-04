@@ -42,9 +42,9 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
 
         layouts = new int[]{R.layout.welcome_slide1,
-                R.layout.welcome_slide2,
-                R.layout.welcome_slide3};
-
+                            R.layout.welcome_slide2,
+                            R.layout.welcome_slide3,
+                            R.layout.welcome_prefs_slide};
         addBottomDots(0);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -73,7 +73,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+                viewPager.setCurrentItem(layouts.length, false);
             }
         });
     }
@@ -144,7 +144,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 case 2:
                     return IntroFragment.newInstance(position);
                 default:
-                    return PrefsFragment.newInstance(position);
+                    return PrefsFragment.newInstance();
             }
         }
 

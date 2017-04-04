@@ -6,87 +6,98 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 public class PrefsFragment extends Fragment {
-    private static final String PAGE = "page";
-    private int mPage;
-
-    private int layoutResId;
 
     private RadioButton mRadioButton1;
     private RadioButton mRadioButton2;
+    private RadioButton mRadioButtonLight;
+    private RadioButton mRadioButtonDark;
+    private ImageView mStandardGridImageView;
+    private ImageView mExtendedGridImageView;
 
-    public static PrefsFragment newInstance(int page) {
-        PrefsFragment fragment = new PrefsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(PAGE, page);
-        fragment.setArguments(bundle);
-        return fragment;
+    public static PrefsFragment newInstance() {
+        return new PrefsFragment();
     }
 
     public PrefsFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (!getArguments().containsKey(PAGE)) {
-            throw new RuntimeException("Fragment must contain a \"" + PAGE + "\" + argument!");
-        }
-        mPage = getArguments().getInt(PAGE);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        switch (mPage) {
-            case 3:
-                layoutResId = R.layout.welcome_prefs_slide1;
-                break;
-            case 4:
-                layoutResId = R.layout.welcome_prefs_slide2;
-                break;
-            default:
-                layoutResId = R.layout.welcome_prefs_slide2;
-        }
-
-        return getActivity().getLayoutInflater().inflate(layoutResId, container, false);
+        return getActivity().getLayoutInflater().inflate(R.layout.welcome_prefs_slide, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRadioButton1 = (RadioButton) view.findViewById(R.id.standard_grid_radio_btn);
+        mRadioButton2 = (RadioButton) view.findViewById(R.id.extended_grid_radio_btn);
+        mRadioButtonLight = (RadioButton) view.findViewById(R.id.light_theme_radio_btn);
+        mRadioButtonDark = (RadioButton) view.findViewById(R.id.dark_theme_radio_btn);
+        mStandardGridImageView = (ImageView) view.findViewById(R.id.standard_grid_icon);
+        mExtendedGridImageView = (ImageView) view.findViewById(R.id.extended_grid_icon);
 
-        if (layoutResId == R.layout.welcome_prefs_slide1) {
-            mRadioButton1 = (RadioButton) view.findViewById(R.id.standard_grid_radio_btn);
-            mRadioButton2 = (RadioButton) view.findViewById(R.id.extended_grid_radio_btn);
+        mStandardGridImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStandardGridListener();
+            }
+        });
+        mRadioButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStandardGridListener();
+            }
+        });
+        mExtendedGridImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setExtendedGridListener();
+            }
+        });
+        mRadioButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setExtendedGridListener();
+            }
+        });
 
-            mRadioButton1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRadioButton1.setChecked(true);
-                    mRadioButton2.setChecked(false);
+        mRadioButtonLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRadioButtonLight.setChecked(true);
+                mRadioButtonDark.setChecked(false);
 
-                    AppDrawerFragment.standardGrid = true;
-                }
-            });
-            mRadioButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRadioButton1.setChecked(false);
-                    mRadioButton2.setChecked(true);
+                AppDrawerFragment.themeId = 0;
+            }
+        });
+        mRadioButtonDark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRadioButtonLight.setChecked(false);
+                mRadioButtonDark.setChecked(true);
 
-                    AppDrawerFragment.standardGrid = false;
-                }
-            });
+                AppDrawerFragment.themeId = 1;
+            }
+        });
+    }
 
-            getActivity().getApplication().setTheme();
-        }
+    private void setStandardGridListener() {
+        mRadioButton1.setChecked(true);
+        mRadioButton2.setChecked(false);
 
-        if (layoutResId == R.layout.welcome_prefs_slide2) {
-        }
+        AppDrawerFragment.standardGrid = true;
+    }
+
+    private void setExtendedGridListener() {
+        mRadioButton1.setChecked(false);
+        mRadioButton2.setChecked(true);
+
+        AppDrawerFragment.standardGrid = false;
     }
 }

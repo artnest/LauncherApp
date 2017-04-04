@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#795548</color>
-    <color name="colorPrimaryDark">#5D4037</color>
-    <color name="colorAccent">#FF9E80</color>
+    <color name="colorPrimaryDark">#5d4037</color>
+    <color name="colorAccent">#ff9e80</color>
 
-    <color name="recycler_view_color">#D7CCC8</color>
+    <color name="colorPrimaryDarkTheme">#5D4037</color>
+    <color name="colorPrimaryDarkDarkTheme">#4E342E</color>
+    <color name="colorAccentDarkTheme">#ffab40</color>
+    <color name="colorBackgroundDark">#303030</color>
+
+    <color name="recycler_view_color">#BCAAA4</color>
     <!--<color name="recycler_view_color_dark">#BCAAA4</color>-->
+    <color name="prefs_color">#D7CCC8</color>
 
     <!-- Screens background color-->
-    <color name="bg_screen1">#80DDEA</color> <!--200-->
-    <color name="bg_screen2">#FFE082</color>
-    <color name="bg_screen3">#CE93D8</color>
-    <color name="bg_screen4">#81D4F4</color>
+    <color name="bg_screen1">#4DD0E1</color> <!--300-->
+    <color name="bg_screen2">#FFD54F</color>
+    <color name="bg_screen3">#BA68C8</color>
+    <color name="bg_screen4">@color/prefs_color</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#26C6DA</color> <!--400-->
     <color name="dot_dark_screen2">#FFCA28</color>
     <color name="dot_dark_screen3">#AB47BC</color>
-    <color name="dot_dark_screen4">#29B6F6</color>
+    <color name="dot_dark_screen4">#A1887F</color> <!--300-->
 
     <!-- dots active colors -->
     <color name="dot_light_screen1">#B2EBF2</color> <!--100-->
     <color name="dot_light_screen2">#FFECB3</color>
     <color name="dot_light_screen3">#E1BEE7</color>
-    <color name="dot_light_screen4">#B3E5FC</color>
+    <color name="dot_light_screen4">#BCAAA4</color> <!--200-->
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

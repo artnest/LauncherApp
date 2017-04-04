@@ -15,4 +15,6 @@
     <string name="start">Понятно</string>
     <string name="standard_grid_text">Стандартная сетка</string>
     <string name="extended_grid_text">Расширенная сетка</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
 </resources>

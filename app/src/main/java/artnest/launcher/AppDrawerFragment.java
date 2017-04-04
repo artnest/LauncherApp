@@ -14,8 +14,9 @@ import artnest.launcher.dummy.DummyContent;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
 public class AppDrawerFragment extends Fragment {
-    public static boolean standardGrid = true;
 
+    public static boolean standardGrid = true;
+    public static int themeId = 0;
 
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -31,11 +32,24 @@ public class AppDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        switch (themeId) {
+            default:
+            case 0:
+                getActivity().setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                getActivity().setTheme(R.style.AppThemeDark);
+                break;
+        }
+        themeId = 0;
+
         if (standardGrid) {
             mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
         } else {
             mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
         }
+        standardGrid = true;
+
         if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
             for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
                 if (index > 8) {

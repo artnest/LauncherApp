@@ -23,6 +23,8 @@
     <string name="slide_4_desc">Pick any of the two themes!</string>
     <string name="standard_grid_text">Standard Grid</string>
     <string name="extended_grid_text">Extended Grid</string>
-    <string name="standard_grid_size">4 : 6</string>
-    <string name="extended_grid_size">5 : 7</string>
+    <string name="standard_grid_size" translatable="false">4 : 6</string>
+    <string name="extended_grid_size" translatable="false">5 : 7</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>
