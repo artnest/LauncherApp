@@ -14,6 +14,8 @@ import artnest.launcher.dummy.DummyContent;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
 public class AppDrawerFragment extends Fragment {
+    public static boolean standardGrid = true;
+
 
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -29,7 +31,11 @@ public class AppDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns);
+        if (standardGrid) {
+            mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
+        } else {
+            mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
+        }
         if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
             for (int i = 0, index = 1; i < DummyContent.COUNT; i++, index++) {
                 if (index > 8) {
@@ -38,7 +44,8 @@ public class AppDrawerFragment extends Fragment {
 
                 int imageResource = getActivity().getResources()
                         .getIdentifier("@drawable/app_" + index, "drawable",
-                                getActivity().getPackageName());
+                                getActivity().getPackageName()); // get drawables to array before method
+                // TODO: 4/4/17 Generate ITEMS in static block
                 DummyContent.populate(imageResource, i + 1);
             }
         }

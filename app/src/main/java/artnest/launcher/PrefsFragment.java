@@ -17,8 +17,8 @@ public class PrefsFragment extends Fragment {
     private RadioButton mRadioButton1;
     private RadioButton mRadioButton2;
 
-    public static IntroFragment newInstance(int page) {
-        IntroFragment fragment = new IntroFragment();
+    public static PrefsFragment newInstance(int page) {
+        PrefsFragment fragment = new PrefsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(PAGE, page);
         fragment.setArguments(bundle);
@@ -70,9 +70,23 @@ public class PrefsFragment extends Fragment {
                     mRadioButton1.setChecked(true);
                     mRadioButton2.setChecked(false);
 
-                    getResources().getInteger(R.integer.drawer_columns) // TODO use flag
+                    AppDrawerFragment.standardGrid = true;
                 }
             });
+            mRadioButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRadioButton1.setChecked(false);
+                    mRadioButton2.setChecked(true);
+
+                    AppDrawerFragment.standardGrid = false;
+                }
+            });
+
+            getActivity().getApplication().setTheme();
+        }
+
+        if (layoutResId == R.layout.welcome_prefs_slide2) {
         }
     }
 }
