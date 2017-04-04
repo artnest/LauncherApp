@@ -138,10 +138,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            /*if (position != 3) {
-                return IntroFragment.newInstance(position);
-            }*/
-            return IntroFragment.newInstance(position);
+            switch (position) {
+                case 0:
+                case 1:
+                case 2:
+                    return IntroFragment.newInstance(position);
+                default:
+                    return PrefsFragment.newInstance(position);
+            }
         }
 
         @Override
