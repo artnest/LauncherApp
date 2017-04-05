@@ -3,6 +3,7 @@ package artnest.launcher;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,8 @@ public class AppDrawerFragment extends Fragment {
     private static final int ICONS_COUNT = 8;
     private List<Integer> imageResources = new LinkedList<>();
 
-    private int mColumnCount = 1;
+    public static int mColumnCount = 1;
+    private RecyclerView.LayoutManager mLayoutManager;
     private OnListFragmentInteractionListener mListener;
 
     public AppDrawerFragment() {
@@ -59,17 +61,29 @@ public class AppDrawerFragment extends Fragment {
 
         for (int i = 0; i < ICONS_COUNT; i++) {
             imageResources.add(getActivity().getResources().getIdentifier("@drawable/app_" + (i + 1),
-                                "drawable",
-                                getActivity().getPackageName()));
+                    "drawable",
+                    getActivity().getPackageName()));
         }
 
-        if (DummyContent.ITEMS.isEmpty() && DummyContent.ITEM_MAP.isEmpty()) {
+        if (DummyContent.ITEMS.isEmpty()) {
             for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
                 Collections.shuffle(imageResources);
-
                 for (int k = 0; k < mColumnCount; k++) {
                     DummyContent.populate(imageResources.get(k), i + 1 + k);
                 }
+
+                Collections.shuffle(imageResources);
+                for (int k = 0; k < mColumnCount; k++) {
+                    DummyContent.NEW_ITEMS.add(new DummyItem(imageResources.get(k),
+                                                Integer.toHexString(i + 1 + k)));
+                }
+            }
+
+            for (int i = 0; i < mColumnCount; i++) {
+                DummyContent.ITEMS.add(0, DummyContent.POPULAR_ITEMS.get(mColumnCount * 2 - i - 1));
+            }
+            for (int i = 0; i < mColumnCount; i++) {
+                DummyContent.ITEMS.add(mColumnCount, DummyContent.NEW_ITEMS.get(mColumnCount - i - 1));
             }
         }
     }
@@ -84,9 +98,15 @@ public class AppDrawerFragment extends Fragment {
             RecyclerView recyclerView = (RecyclerView) view;
 
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mLayoutManager = new LinearLayoutManager(context);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+                                            ((LinearLayoutManager) mLayoutManager).getOrientation()));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mLayoutManager = new GridLayoutManager(context, mColumnCount);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+                                            ((GridLayoutManager) mLayoutManager).getOrientation()));
             }
             recyclerView.setAdapter(new AppDrawerRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }

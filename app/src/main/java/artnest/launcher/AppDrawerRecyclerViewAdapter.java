@@ -11,19 +11,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import artnest.launcher.AppDrawerFragment.OnListFragmentInteractionListener;
+import artnest.launcher.dummy.DummyContent;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
 public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawerRecyclerViewAdapter.ViewHolder> {
 
     public final List<DummyItem> mValues;
+    public final List<DummyItem> mPopularValues;
+    public final List<DummyItem> mNewValues;
     private final OnListFragmentInteractionListener mListener;
 
     public AppDrawerRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+
+        mPopularValues = DummyContent.POPULAR_ITEMS;
+        mNewValues = DummyContent.NEW_ITEMS;
     }
 
     @Override
@@ -44,6 +51,7 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
             public void onClick(View v) {
                 if (null != mListener) {
                     mListener.onListFragmentInteraction(holder.mItem);
+                    updatePopularAppsRow(holder);
                 }
             }
         });
@@ -59,11 +67,16 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
                         switch (item.getItemId()) {
                             case R.id.menu_item_info:
                                 Toast.makeText(v.getContext(), "Info", Toast.LENGTH_SHORT).show();
+                                updatePopularAppsRow(holder);
                                 return true;
                             case R.id.menu_item_delete:
                                 mValues.remove(holder.getAdapterPosition());
-                                notifyItemRemoved(holder.getAdapterPosition());
-                                Toast.makeText(v.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                mPopularValues.remove(holder.mItem);
+                                mNewValues.remove(holder.getAdapterPosition());
+
+                                // notifyItemRemoved(holder.getAdapterPosition());
+                                notifyDataSetChanged();
+                                Toast.makeText(v.getContext(), "Removed", Toast.LENGTH_SHORT).show();
                                 return true;
                             default:
                                 return false;
@@ -75,6 +88,20 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
                 return true;
             }
         });
+    }
+
+    private void updatePopularAppsRow(ViewHolder holder) {
+        holder.mItem.clicks++;
+        Collections.sort(mPopularValues, Collections.<DummyItem>reverseOrder());
+
+        for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
+            mValues.remove(i);
+        }
+        for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
+            mValues.add(0, mPopularValues.get(AppDrawerFragment.mColumnCount - i - 1));
+        }
+
+        notifyItemRangeChanged(0, AppDrawerFragment.mColumnCount);
     }
 
     @Override

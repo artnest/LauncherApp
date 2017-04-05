@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Cloud Launcher</string>
     <string name="menu_item_info">Info</string>
-    <string name="menu_item_delete">Delete</string>
+    <string name="menu_item_delete">Remove</string>
     <string name="item_icon_description" translatable="false">Application Icon</string>
     <string name="launcher_logo_description" translatable="false">Launcher Logo</string>
 

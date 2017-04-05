@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dark_theme">अंधेरे विषय</string>
+    <string name="extended_grid_text">विस्तारित ग्रिड</string>
+    <string name="light_theme">प्रकाश विषय</string>
+    <string name="menu_item_delete">हटाना</string>
+    <string name="menu_item_info">जानकारी</string>
+    <string name="next">अगले</string>
+    <string name="skip">छोड़ें</string>
+    <string name="slide_1_desc">सबसे सुंदर बार्बी आप कभी देखा है!</string>
+    <string name="slide_1_title">नमस्कार, Cloud Launcher</string>
+    <string name="slide_2_desc">आसान करने के लिए उपयोग और के रूप में प्रकाश के रूप में के बादल!</string>
+    <string name="slide_2_title">प्रकाश एक</string>
+    <string name="slide_3_desc">का प्रयोग करें यह आप चाहते हैं जिस तरह के साथ दो ग्रिड!</string>
+    <string name="slide_3_title">स्पष्ट उपयोग</string>
+    <string name="slide_4_desc">लेने के किसी भी दो विषयों!</string>
+    <string name="slide_4_title">भयानक विषयों</string>
+    <string name="standard_grid_text">मानक ग्रिड</string>
+    <string name="start">यह मिल गया</string>
+</resources>
