@@ -103,8 +103,8 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-//        prefsManager.setIsFirstTimeLaunch(false);
-        prefsManager.setIsFirstTimeLaunch(true);
+        prefsManager.setIsFirstTimeLaunch(false); // comment to turn off first launch check
+//        prefsManager.setIsFirstTimeLaunch(true); // uncomment
         startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
     }
