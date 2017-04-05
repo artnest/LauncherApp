@@ -1,6 +1,10 @@
 package artnest.launcher;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,13 +14,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 import artnest.launcher.dummy.DummyContent;
-import artnest.launcher.dummy.DummyContent.DummyItem;
 
 public class AppDrawerFragment extends Fragment {
 
@@ -28,7 +34,9 @@ public class AppDrawerFragment extends Fragment {
 
     public static int mColumnCount = 1;
     private RecyclerView.LayoutManager mLayoutManager;
-    private OnListFragmentInteractionListener mListener;
+//    private OnListFragmentInteractionListener mListener;
+
+    private RecyclerView mRecyclerView;
 
     public AppDrawerFragment() {
     }
@@ -45,12 +53,13 @@ public class AppDrawerFragment extends Fragment {
             default:
             case 0:
                 getActivity().setTheme(R.style.AppTheme);
+                themeId = 0; // TODO use SharedPreferences
                 break;
             case 1:
                 getActivity().setTheme(R.style.AppThemeDark);
+                themeId = 0; // TODO use SharedPreferences
                 break;
         }
-        themeId = 0; // TODO use SharedPreferences
 
         if (standardGrid) {
             mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
@@ -59,7 +68,7 @@ public class AppDrawerFragment extends Fragment {
         }
         standardGrid = true; // TODO use SharedPreferences
 
-        for (int i = 0; i < ICONS_COUNT; i++) {
+        /*for (int i = 0; i < ICONS_COUNT; i++) {
             imageResources.add(getActivity().getResources().getIdentifier("@drawable/app_" + (i + 1),
                     "drawable",
                     getActivity().getPackageName()));
@@ -85,7 +94,7 @@ public class AppDrawerFragment extends Fragment {
             for (int i = 0; i < mColumnCount; i++) {
                 DummyContent.ITEMS.add(mColumnCount, DummyContent.NEW_ITEMS.get(mColumnCount - i - 1));
             }
-        }
+        }*/
     }
 
     @Override
@@ -95,26 +104,46 @@ public class AppDrawerFragment extends Fragment {
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            mRecyclerView = (RecyclerView) view;
 
             if (mColumnCount <= 1) {
                 mLayoutManager = new LinearLayoutManager(context);
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                                             ((LinearLayoutManager) mLayoutManager).getOrientation()));
             } else {
                 mLayoutManager = new GridLayoutManager(context, mColumnCount);
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                                             ((GridLayoutManager) mLayoutManager).getOrientation()));
             }
-            recyclerView.setAdapter(new AppDrawerRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            setupAdapter();
         }
         return view;
     }
 
+    private void setupAdapter() {
+        Intent startupIntent = new Intent(Intent.ACTION_MAIN);
+        startupIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-    @Override
+        final PackageManager packageManager = getActivity().getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(startupIntent, 0);
+
+        Collections.sort(activities, new Comparator<ResolveInfo>() {
+            @Override
+            public int compare(ResolveInfo lhs, ResolveInfo rhs) {
+                PackageManager packageManager = getActivity().getPackageManager();
+                return String.CASE_INSENSITIVE_ORDER
+                        .compare(lhs.loadLabel(packageManager).toString(),
+                                rhs.loadLabel(packageManager).toString());
+            }
+        });
+
+        mRecyclerView.setAdapter(new ActivitiesAdapter(activities));
+    }
+
+
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
@@ -123,16 +152,71 @@ public class AppDrawerFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
+    }*/
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DummyContent.DummyItem item);
+    }
+
+    public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ActivityHolder> {
+        private final List<ResolveInfo> mActivities;
+
+        public ActivitiesAdapter(List<ResolveInfo> mActivities) {
+            this.mActivities = mActivities;
+        }
+
+        @Override
+        public ActivityHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new ActivityHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ActivityHolder holder, int position) {
+            ResolveInfo resolveInfo = mActivities.get(position);
+            holder.bindActivity(resolveInfo);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mActivities.size();
+        }
+
+        public class ActivityHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private ResolveInfo mResolveInfo;
+            private TextView mNameTextView;
+            private ImageView mIconImageView;
+
+            public ActivityHolder(View itemView) {
+                super(itemView);
+                mNameTextView = (TextView) itemView;
+                mNameTextView.setOnClickListener(this);
+            }
+
+            public void bindActivity(ResolveInfo resolveInfo) {
+                mResolveInfo = resolveInfo;
+
+                PackageManager packageManager = getActivity().getPackageManager();
+                String appName = mResolveInfo.loadLabel(packageManager).toString();
+                mNameTextView.setText(appName);
+            }
+
+            @Override
+            public void onClick(View v) {
+                ActivityInfo activityInfo = mResolveInfo.activityInfo;
+                Intent intent = new Intent(Intent.ACTION_MAIN)
+                        .setClassName(activityInfo.applicationInfo.packageName, activityInfo.name)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }
     }
 }

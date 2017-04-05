@@ -3,14 +3,8 @@ package artnest.launcher;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import java.util.Collections;
-import java.util.List;
-
-import artnest.launcher.dummy.DummyContent;
-
-public class MainActivity extends AppCompatActivity implements AppDrawerFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity /*implements AppDrawerFragment.OnListFragmentInteractionListener*/ {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +17,8 @@ public class MainActivity extends AppCompatActivity implements AppDrawerFragment
         }
     }
 
-    @Override
+    /*@Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
         Toast.makeText(MainActivity.this, item.name, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 }
