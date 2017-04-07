@@ -116,6 +116,8 @@ public class AppDrawerFragment extends Fragment {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                                             ((GridLayoutManager) mLayoutManager).getOrientation()));
+                /*mRecyclerView.addItemDecoration(new artnest.launcher.DividerItemDecoration(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.divider)));*/
             }
             setupAdapter();
         }
