@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
-import com.turingtechnologies.materialscrollbar.DragScrollBar;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,36 +68,47 @@ public class AppDrawerFragment extends Fragment {
 
         if (DummyContent.ITEMS.isEmpty()) {
             for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
+                Collections.shuffle(imageResources);
                 if (i + mColumnCount < DummyContent.COUNT) {
-                    Collections.shuffle(imageResources);
+//                    Collections.shuffle(imageResources);
                     for (int k = 0; k < mColumnCount; k++) {
-                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+//                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+                        DummyContent.ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
+                                Integer.toHexString(i + 1 + k)));
                     }
 
-                    Collections.shuffle(imageResources);
+                    /*Collections.shuffle(imageResources);
                     for (int k = 0; k < mColumnCount; k++) {
                         DummyContent.NEW_ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
                                 Integer.toHexString(i + 1 + k)));
-                    }
+                    }*/
                 } else {
-                    Collections.shuffle(imageResources);
+//                    Collections.shuffle(imageResources);
                     for (int k = 0; k < DummyContent.COUNT - DummyContent.ITEMS.size(); k++) {
-                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+//                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+                        DummyContent.ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
+                                Integer.toHexString(i + 1 + k)));
                     }
 
-                    Collections.shuffle(imageResources);
+                    /*Collections.shuffle(imageResources);
                     for (int k = 0; k < DummyContent.COUNT - DummyContent.ITEMS.size(); k++) {
                         DummyContent.NEW_ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
                                 Integer.toHexString(i + 1 + k)));
-                    }
+                    }*/
                 }
             }
 
-            for (int i = 0; i < mColumnCount; i++) {
+            /*for (int i = 0; i < mColumnCount; i++) {
                 DummyContent.ITEMS.add(0, DummyContent.POPULAR_ITEMS.get(mColumnCount * 2 - i - 1));
+            }*/
+            for (int i = 0, k = mColumnCount; i < mColumnCount; i++, k++) {
+                DummyContent.POPULAR_ITEMS.add(DummyContent.ITEMS.get(k));
             }
-            for (int i = 0; i < mColumnCount; i++) {
+            /*for (int i = 0; i < mColumnCount; i++) {
                 DummyContent.ITEMS.add(mColumnCount, DummyContent.NEW_ITEMS.get(mColumnCount - i - 1));
+            }*/
+            for (int i = 0, k = 0; i < mColumnCount; i++, k++) {
+                DummyContent.NEW_ITEMS.add(DummyContent.ITEMS.get(k));
             }
         }
     }
@@ -113,13 +121,13 @@ public class AppDrawerFragment extends Fragment {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
 
-        mAdapter = new AppDrawerAdapter(DummyContent.ITEMS);
+        mAdapter = new AppDrawerAdapter();
         mLayoutManager = new GridLayoutManager(context, mColumnCount);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        ((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
-                .setIndicator(new AlphabetIndicator(view.getContext()), true);
+        /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
+                .setIndicator(new AlphabetIndicator(view.getContext()), true); // FIXME: 4/9/17 Make sections scroll work*/
 
         return view;
     }

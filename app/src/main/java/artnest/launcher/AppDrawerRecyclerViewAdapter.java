@@ -14,7 +14,6 @@ import android.widget.Toast;
 import java.util.Collections;
 import java.util.List;
 
-import artnest.launcher.AppDrawerFragment.OnListFragmentInteractionListener;
 import artnest.launcher.dummy.DummyContent;
 import artnest.launcher.dummy.DummyContent.DummyItem;
 
@@ -23,11 +22,11 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
     public final List<DummyItem> mValues;
     public final List<DummyItem> mPopularValues;
     public final List<DummyItem> mNewValues;
-    private final OnListFragmentInteractionListener mListener;
+//    private final OnListFragmentInteractionListener mListener;
 
-    public AppDrawerRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public AppDrawerRecyclerViewAdapter(List<DummyItem> items/*, OnListFragmentInteractionListener listener*/) {
         mValues = items;
-        mListener = listener;
+//        mListener = listener;
 
         mPopularValues = DummyContent.POPULAR_ITEMS;
         mNewValues = DummyContent.NEW_ITEMS;
@@ -49,10 +48,10 @@ public class AppDrawerRecyclerViewAdapter extends RecyclerView.Adapter<AppDrawer
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                /*if (null != mListener) {
                     mListener.onListFragmentInteraction(holder.mItem);
                     updatePopularAppsRow(holder);
-                }
+                }*/
             }
         });
 

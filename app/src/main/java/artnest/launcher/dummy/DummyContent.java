@@ -10,10 +10,10 @@ import java.util.List;
 public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<>();
-    public static final List<DummyItem> POPULAR_ITEMS = new ArrayList<>();
-    public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
+    public static final List<DummyItem> POPULAR_ITEMS = new ArrayList<>(); // TODO: 4/9/17 Make deque
+    public static final List<DummyItem> NEW_ITEMS = new LinkedList<>(); // TODO: 4/9/17 Make deque
 
-    public static final int COUNT = 25;
+    public static final int COUNT = 100;
 
     public static void populate(int iconId, int position) {
         addItem(createDummyItem(iconId, position));
@@ -22,7 +22,7 @@ public class DummyContent {
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
 
-        POPULAR_ITEMS.add(item);
+//        POPULAR_ITEMS.add(item);
 //        NEW_ITEMS.add(item);
     }
 
@@ -48,8 +48,7 @@ public class DummyContent {
 
             DummyItem dummyItem = (DummyItem) o;
 
-            if (iconId != dummyItem.iconId) return false;
-            return name.equals(dummyItem.name);
+            return iconId == dummyItem.iconId && name.equals(dummyItem.name);
 
         }
 

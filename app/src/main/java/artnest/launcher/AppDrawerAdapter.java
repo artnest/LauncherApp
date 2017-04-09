@@ -8,17 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
-import com.turingtechnologies.materialscrollbar.INameableAdapter;
-
-import java.util.List;
 
 import artnest.launcher.dummy.DummyContent;
 
-public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> implements INameableAdapter {
-    public final List<DummyContent.DummyItem> mItems;
+public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> /*implements INameableAdapter*/ {
+//    public final List<DummyContent.DummyItem> mItems;
 
-    public AppDrawerAdapter(List<DummyContent.DummyItem> mItems) {
+    /*public AppDrawerAdapter(List<DummyContent.DummyItem> mItems) {
         this.mItems = mItems;
+    }*/
+
+    public AppDrawerAdapter() {
     }
 
     @Override
@@ -34,12 +34,14 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
                 if (AppDrawerFragment.standardGrid) {
 //                    return R.integer.drawer_columns_standard;
                     return 4; // TODO: 4/9/17 return Resource
+//                    return 6; // landscape
                 } else {
 //                    return R.integer.drawer_columns_extended;
                     return 5;
+//                    return 7; // landscape
                 }
             default:
-                return mItems.size();
+                return DummyContent.ITEMS.size();
         }
     }
 
@@ -61,8 +63,19 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, int relativePosition, int absolutePosition) {
         AppViewHolder viewHolder = (AppViewHolder) holder;
-        viewHolder.mImageView.setImageResource(mItems.get(absolutePosition).iconId);
-        viewHolder.mTextView.setText(mItems.get(absolutePosition).name);
+        switch (section) {
+            case 0:
+                viewHolder.mImageView.setImageResource(DummyContent.POPULAR_ITEMS.get(relativePosition).iconId);
+                viewHolder.mTextView.setText(DummyContent.POPULAR_ITEMS.get(relativePosition).name);
+                break;
+            case 1:
+                viewHolder.mImageView.setImageResource(DummyContent.NEW_ITEMS.get(relativePosition).iconId);
+                viewHolder.mTextView.setText(DummyContent.NEW_ITEMS.get(relativePosition).name);
+                break;
+            default:
+                viewHolder.mImageView.setImageResource(DummyContent.ITEMS.get(relativePosition).iconId);
+                viewHolder.mTextView.setText(DummyContent.ITEMS.get(relativePosition).name);
+        }
     }
 
     @Override
@@ -80,15 +93,16 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         }
     }
 
-    @Override
+    /*@Override
     public Character getCharacterForElement(int element) {
-        Character c = mItems.get(element).name.charAt(0);
+        Character c = mItems.get(element).name.charAt(0); // all items
+        Character c = DummyContent.ITEMS.get(element).name.charAt(0); // TODO check (it should exclude popular and new)
         if (Character.isDigit(c)) {
             c = '#';
         }
 
         return c;
-    }
+    }*/
 
     public static class AppViewHolder extends RecyclerView.ViewHolder {
 
