@@ -11,19 +11,24 @@ public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<>();
     public static final List<DummyItem> POPULAR_ITEMS = new LinkedList<>();
+    public static final List<DummyItem> POPULAR_ALL_ITEMS = new LinkedList<>();
     public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
+    public static final List<DummyItem> NEW_ALL_ITEMS = new LinkedList<>();
 
     public static final int COUNT = 100;
 
     public static void populate(int iconId, int position) {
-        ITEMS.add(createDummyItem(iconId, position));
+        DummyItem item = createDummyItem(iconId, position);
+        ITEMS.add(item);
+        POPULAR_ALL_ITEMS.add(item);
+        NEW_ALL_ITEMS.add(0, item);
     }
 
     private static DummyItem createDummyItem(int id, int position) {
         return new DummyItem(id, Integer.toHexString(position));
     }
 
-    public static class DummyItem implements Comparable {
+    public static class DummyItem implements Comparable<DummyItem> {
         public final int iconId;
         public final String name;
         public int clicks;
@@ -58,8 +63,8 @@ public class DummyContent {
         }
 
         @Override
-        public int compareTo(@NonNull Object o) {
-            return Integer.valueOf(this.clicks).compareTo(((DummyItem) o).clicks);
+        public int compareTo(@NonNull DummyItem o) {
+            return Integer.valueOf(clicks).compareTo(o.clicks);
         }
     }
 }

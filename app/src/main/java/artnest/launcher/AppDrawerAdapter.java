@@ -34,12 +34,9 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
     public int getItemCount(int section) {
         switch (section) {
             case 0:
+                return DummyContent.POPULAR_ITEMS.size();
             case 1:
-                if (AppDrawerFragment.standardGrid) {
-                    return context.getResources().getInteger(R.integer.drawer_columns_standard);
-                } else {
-                    return context.getResources().getInteger(R.integer.drawer_columns_extended);
-                }
+                return DummyContent.NEW_ITEMS.size();
             default:
                 return DummyContent.ITEMS.size();
         }
@@ -78,17 +75,24 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         }
 
         viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
-        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, viewHolder.mTextView.getText(), Toast.LENGTH_SHORT).show();
 
                 viewHolder.mItem.clicks++;
-                Collections.sort(DummyContent.POPULAR_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+                Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+                DummyContent.POPULAR_ITEMS.clear();
+                for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
+                    DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
+                }
 
-                notifyItemRangeChanged(0, AppDrawerFragment.mColumnCount);
+                notifyItemRangeChanged(0, DummyContent.POPULAR_ITEMS.size() + 1);
             }
-        });
+        };
+
+        viewHolder.mImageView.setOnClickListener(listener);
+        viewHolder.mTextView.setOnClickListener(listener);
     }
 
     @Override

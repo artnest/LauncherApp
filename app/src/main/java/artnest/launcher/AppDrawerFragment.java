@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,11 +85,28 @@ public class AppDrawerFragment extends Fragment {
 
         DummyContent.POPULAR_ITEMS.clear();
         DummyContent.NEW_ITEMS.clear();
-        for (int i = 0, k = mColumnCount; i < mColumnCount; i++, k++) {
-            DummyContent.POPULAR_ITEMS.add(DummyContent.ITEMS.get(k));
+
+        for (int i = 0; i < DummyContent.POPULAR_ALL_ITEMS.size(); i++) {
+            DummyContent.POPULAR_ALL_ITEMS.get(i).clicks = 0;
         }
-        for (int i = 0, k = 0; i < mColumnCount; i++, k++) {
-            DummyContent.NEW_ITEMS.add(DummyContent.ITEMS.get(k));
+        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, new Comparator<DummyContent.DummyItem>() {
+            @Override
+            public int compare(DummyContent.DummyItem o1, DummyContent.DummyItem o2) {
+                return Integer.valueOf(Integer.parseInt(o1.name, 16))
+                        .compareTo(Integer.parseInt(o2.name, 16));
+            }
+        });
+
+        for (int i = mColumnCount; i < mColumnCount * 2; i++) {
+            DummyContent.POPULAR_ALL_ITEMS.get(i).clicks++;
+        }
+        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+
+        for (int i = 0; i < mColumnCount; i++) {
+            DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
+        }
+        for (int i = 0; i < mColumnCount; i++) {
+            DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
         }
     }
 
@@ -107,6 +125,7 @@ public class AppDrawerFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
                 .setIndicator(new AlphabetIndicator(view.getContext()), true); // FIXME: Make sections scroll work*/
+        mRecyclerView.getItemAnimator().setChangeDuration(0);
 
         return view;
     }
