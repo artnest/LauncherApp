@@ -3,8 +3,8 @@
     <string name="slide_1_title">Привет, Cloud Launcher!</string>
     <string name="menu_item_delete">Удалить</string>
     <string name="menu_item_info">Инфо</string>
-    <string name="next">Далее</string>
-    <string name="skip">Пропустить</string>
+    <string name="next">ДАЛЕЕ</string>
+    <string name="skip">ПРОПУСТИТЬ</string>
     <string name="slide_1_desc">Самый красивый лаунчер, который вы когда-либо видели!</string>
     <string name="slide_2_desc">Удобный в использовании и легкий, как обалака!</string>
     <string name="slide_2_title">Легкий малый</string>
@@ -12,7 +12,7 @@
     <string name="slide_3_title">Ясный и простой</string>
     <string name="slide_4_desc">Выберите одну из двух доступных тем!</string>
     <string name="slide_4_title">Крутые темы</string>
-    <string name="start">Понятно</string>
+    <string name="start">ПОНЯТНО</string>
     <string name="standard_grid_text">Стандартная сетка</string>
     <string name="extended_grid_text">Расширенная сетка</string>
     <string name="light_theme">Светлая тема</string>

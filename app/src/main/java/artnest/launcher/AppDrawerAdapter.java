@@ -1,29 +1,33 @@
 package artnest.launcher;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
+import java.util.Collections;
+
 import artnest.launcher.dummy.DummyContent;
 
-public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> /*implements INameableAdapter*/ {
-//    public final List<DummyContent.DummyItem> mItems;
+public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder>
+        /*implements INameableAdapter*/ {
 
-    /*public AppDrawerAdapter(List<DummyContent.DummyItem> mItems) {
-        this.mItems = mItems;
-    }*/
+    private final Context context;
+    private static final int SECTION_COUNT = 3;
 
-    public AppDrawerAdapter() {
+    public AppDrawerAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
     public int getSectionCount() {
-        return 3;
+        return SECTION_COUNT;
     }
 
     @Override
@@ -32,13 +36,9 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
             case 0:
             case 1:
                 if (AppDrawerFragment.standardGrid) {
-//                    return R.integer.drawer_columns_standard;
-                    return 4; // TODO: 4/9/17 return Resource
-//                    return 6; // landscape
+                    return context.getResources().getInteger(R.integer.drawer_columns_standard);
                 } else {
-//                    return R.integer.drawer_columns_extended;
-                    return 5;
-//                    return 7; // landscape
+                    return context.getResources().getInteger(R.integer.drawer_columns_extended);
                 }
             default:
                 return DummyContent.ITEMS.size();
@@ -62,7 +62,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, int relativePosition, int absolutePosition) {
-        AppViewHolder viewHolder = (AppViewHolder) holder;
+        final AppViewHolder viewHolder = (AppViewHolder) holder;
         switch (section) {
             case 0:
                 viewHolder.mImageView.setImageResource(DummyContent.POPULAR_ITEMS.get(relativePosition).iconId);
@@ -76,6 +76,19 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
                 viewHolder.mImageView.setImageResource(DummyContent.ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.ITEMS.get(relativePosition).name);
         }
+
+        viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
+        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, viewHolder.mTextView.getText(), Toast.LENGTH_SHORT).show();
+
+                viewHolder.mItem.clicks++;
+                Collections.sort(DummyContent.POPULAR_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+
+                notifyItemRangeChanged(0, AppDrawerFragment.mColumnCount);
+            }
+        });
     }
 
     @Override
@@ -108,6 +121,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
         final ImageView mImageView;
         final TextView mTextView;
+        DummyContent.DummyItem mItem;
 
         public AppViewHolder(View itemView) {
             super(itemView);

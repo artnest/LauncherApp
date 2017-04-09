@@ -10,20 +10,13 @@ import java.util.List;
 public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<>();
-    public static final List<DummyItem> POPULAR_ITEMS = new ArrayList<>(); // TODO: 4/9/17 Make deque
-    public static final List<DummyItem> NEW_ITEMS = new LinkedList<>(); // TODO: 4/9/17 Make deque
+    public static final List<DummyItem> POPULAR_ITEMS = new LinkedList<>();
+    public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
 
     public static final int COUNT = 100;
 
     public static void populate(int iconId, int position) {
-        addItem(createDummyItem(iconId, position));
-    }
-
-    private static void addItem(DummyItem item) {
-        ITEMS.add(item);
-
-//        POPULAR_ITEMS.add(item);
-//        NEW_ITEMS.add(item);
+        ITEMS.add(createDummyItem(iconId, position));
     }
 
     private static DummyItem createDummyItem(int id, int position) {
