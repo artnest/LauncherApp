@@ -4,7 +4,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/content_inset_half"
+    android:paddingLeft="@dimen/content_inset"
+    android:paddingRight="@dimen/content_inset"
+    android:paddingTop="@dimen/content_inset_half">
 
     <ImageView
         android:id="@+id/icon"
@@ -15,7 +19,7 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"

@@ -9,11 +9,11 @@ import java.util.List;
 // TODO: Replace all uses of this class before publishing your app.
 public class DummyContent {
 
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
-    public static final List<DummyItem> POPULAR_ITEMS = new ArrayList<DummyItem>();
-    public static final List<DummyItem> NEW_ITEMS = new LinkedList<DummyItem>();
+    public static final List<DummyItem> ITEMS = new ArrayList<>();
+    public static final List<DummyItem> POPULAR_ITEMS = new ArrayList<>();
+    public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
 
-    public static final int COUNT = 25 * 4 * 100;
+    public static final int COUNT = 25;
 
     public static void populate(int iconId, int position) {
         addItem(createDummyItem(iconId, position));

@@ -1,24 +1,18 @@
 package artnest.launcher;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,11 +26,12 @@ public class AppDrawerFragment extends Fragment {
     private static final int ICONS_COUNT = 8;
     private List<Integer> imageResources = new LinkedList<>();
 
-    public static int mColumnCount = 1;
-    private RecyclerView.LayoutManager mLayoutManager;
-//    private OnListFragmentInteractionListener mListener;
+    public static int mColumnCount = 2;
+    private GridLayoutManager mLayoutManager;
+//    private OnListFragmentInteractionListener mListener; // TODO: 4/9/17 Remove
 
     private RecyclerView mRecyclerView;
+    private AppDrawerAdapter mAdapter;
 
     public AppDrawerFragment() {
     }
@@ -68,7 +63,7 @@ public class AppDrawerFragment extends Fragment {
         }
         standardGrid = true; // TODO use SharedPreferences
 
-        /*for (int i = 0; i < ICONS_COUNT; i++) {
+        for (int i = 0; i < ICONS_COUNT; i++) {
             imageResources.add(getActivity().getResources().getIdentifier("@drawable/app_" + (i + 1),
                     "drawable",
                     getActivity().getPackageName()));
@@ -76,15 +71,28 @@ public class AppDrawerFragment extends Fragment {
 
         if (DummyContent.ITEMS.isEmpty()) {
             for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
-                Collections.shuffle(imageResources);
-                for (int k = 0; k < mColumnCount; k++) {
-                    DummyContent.populate(imageResources.get(k), i + 1 + k);
-                }
+                if (i + mColumnCount < DummyContent.COUNT) {
+                    Collections.shuffle(imageResources);
+                    for (int k = 0; k < mColumnCount; k++) {
+                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+                    }
 
-                Collections.shuffle(imageResources);
-                for (int k = 0; k < mColumnCount; k++) {
-                    DummyContent.NEW_ITEMS.add(new DummyItem(imageResources.get(k),
-                                                Integer.toHexString(i + 1 + k)));
+                    Collections.shuffle(imageResources);
+                    for (int k = 0; k < mColumnCount; k++) {
+                        DummyContent.NEW_ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
+                                Integer.toHexString(i + 1 + k)));
+                    }
+                } else {
+                    Collections.shuffle(imageResources);
+                    for (int k = 0; k < DummyContent.COUNT - DummyContent.ITEMS.size(); k++) {
+                        DummyContent.populate(imageResources.get(k), i + 1 + k);
+                    }
+
+                    Collections.shuffle(imageResources);
+                    for (int k = 0; k < DummyContent.COUNT - DummyContent.ITEMS.size(); k++) {
+                        DummyContent.NEW_ITEMS.add(new DummyContent.DummyItem(imageResources.get(k),
+                                Integer.toHexString(i + 1 + k)));
+                    }
                 }
             }
 
@@ -94,7 +102,7 @@ public class AppDrawerFragment extends Fragment {
             for (int i = 0; i < mColumnCount; i++) {
                 DummyContent.ITEMS.add(mColumnCount, DummyContent.NEW_ITEMS.get(mColumnCount - i - 1));
             }
-        }*/
+        }
     }
 
     @Override
@@ -102,29 +110,21 @@ public class AppDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_app_drawer_list, container, false);
 
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            mRecyclerView = (RecyclerView) view;
+        Context context = view.getContext();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
 
-            if (mColumnCount <= 1) {
-                mLayoutManager = new LinearLayoutManager(context);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
-                                            ((LinearLayoutManager) mLayoutManager).getOrientation()));
-            } else {
-                mLayoutManager = new GridLayoutManager(context, mColumnCount);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
-                                            ((GridLayoutManager) mLayoutManager).getOrientation()));
-                /*mRecyclerView.addItemDecoration(new artnest.launcher.DividerItemDecoration(
-                        ContextCompat.getDrawable(getActivity(), R.drawable.divider)));*/
-            }
-            setupAdapter();
-        }
+        mAdapter = new AppDrawerAdapter(DummyContent.ITEMS);
+        mLayoutManager = new GridLayoutManager(context, mColumnCount);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        ((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
+                .setIndicator(new AlphabetIndicator(view.getContext()), true);
+
         return view;
     }
 
-    private void setupAdapter() {
+    /*private void setupAdapter() {
         Intent startupIntent = new Intent(Intent.ACTION_MAIN);
         startupIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -145,7 +145,7 @@ public class AppDrawerFragment extends Fragment {
     }
 
 
-    /*@Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
@@ -154,13 +154,13 @@ public class AppDrawerFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }*/
+    }
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -220,5 +220,5 @@ public class AppDrawerFragment extends Fragment {
                 startActivity(intent);
             }
         }
-    }
+    }*/
 }

@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="artnest.launcher.ApplicationFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/recycler_view_color"
-    app:layoutManager="GridLayoutManager"
-    tools:context="artnest.launcher.AppDrawerFragment"
-    tools:listitem="@layout/fragment_app_drawer_item" />
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="artnest.launcher.ApplicationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/recycler_view_color" />
+
+    <com.turingtechnologies.materialscrollbar.DragScrollBar
+        android:id="@+id/drag_scroll_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:msb_lightOnTouch="false"
+        app:msb_recyclerView="@id/list" />
+
+</RelativeLayout>
+

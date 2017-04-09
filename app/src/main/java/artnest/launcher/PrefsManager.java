@@ -15,7 +15,7 @@ public class PrefsManager {
 
     public PrefsManager(Context context) {
         this.context = context;
-        this.prefs = this.context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.prefs = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         this.editor = prefs.edit();
         this.editor.apply();
     }
