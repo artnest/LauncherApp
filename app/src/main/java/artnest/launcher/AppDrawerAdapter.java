@@ -64,17 +64,19 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
             case 0:
                 viewHolder.mImageView.setImageResource(DummyContent.POPULAR_ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.POPULAR_ITEMS.get(relativePosition).name);
+                viewHolder.mItem = DummyContent.POPULAR_ITEMS.get(relativePosition);
                 break;
             case 1:
                 viewHolder.mImageView.setImageResource(DummyContent.NEW_ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.NEW_ITEMS.get(relativePosition).name);
+                viewHolder.mItem = DummyContent.NEW_ITEMS.get(relativePosition);
                 break;
             default:
                 viewHolder.mImageView.setImageResource(DummyContent.ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.ITEMS.get(relativePosition).name);
+                viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
         }
 
-        viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
