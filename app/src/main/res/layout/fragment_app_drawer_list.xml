@@ -11,15 +11,15 @@
         android:layout_height="match_parent"
         android:background="@color/recycler_view_color" />
 
-    <com.turingtechnologies.materialscrollbar.DragScrollBar
-        android:id="@+id/drag_scroll_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        app:msb_lightOnTouch="false"
-        app:msb_recyclerView="@id/list" />
+    <!--<com.turingtechnologies.materialscrollbar.DragScrollBar-->
+        <!--android:id="@+id/drag_scroll_bar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--app:msb_lightOnTouch="false"-->
+        <!--app:msb_recyclerView="@id/list" />-->
 
 </RelativeLayout>
 
