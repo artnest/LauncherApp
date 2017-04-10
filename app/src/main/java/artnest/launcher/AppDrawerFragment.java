@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -60,15 +59,14 @@ public class AppDrawerFragment extends Fragment {
         }
         standardGrid = true; // TODO use SharedPreferences
 
-        if (imageResources.isEmpty()) {
+        if (DummyContent.ITEMS.isEmpty()) {
             for (int i = 0; i < ICONS_COUNT; i++) {
                 imageResources.add(getResources().getIdentifier("@drawable/app_" + (i + 1),
                         "drawable",
                         getActivity().getPackageName()));
             }
-        }
 
-        if (DummyContent.ITEMS.isEmpty()) {
+
             for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
                 Collections.shuffle(imageResources);
                 if (i + mColumnCount < DummyContent.COUNT) {
@@ -81,12 +79,17 @@ public class AppDrawerFragment extends Fragment {
                     }
                 }
             }
+
+            for (int i = mColumnCount; i < mColumnCount * 2; i++) {
+                DummyContent.POPULAR_ALL_ITEMS.get(i).clicks++;
+            }
+            Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
         }
 
         DummyContent.POPULAR_ITEMS.clear();
         DummyContent.NEW_ITEMS.clear();
 
-        for (int i = 0; i < DummyContent.POPULAR_ALL_ITEMS.size(); i++) {
+        /*for (int i = 0; i < DummyContent.POPULAR_ALL_ITEMS.size(); i++) {
             DummyContent.POPULAR_ALL_ITEMS.get(i).clicks = 0;
         }
         Collections.sort(DummyContent.POPULAR_ALL_ITEMS, new Comparator<DummyContent.DummyItem>() {
@@ -100,7 +103,7 @@ public class AppDrawerFragment extends Fragment {
         for (int i = mColumnCount; i < mColumnCount * 2; i++) {
             DummyContent.POPULAR_ALL_ITEMS.get(i).clicks++;
         }
-        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());*/
 
         for (int i = 0; i < mColumnCount; i++) {
             DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
