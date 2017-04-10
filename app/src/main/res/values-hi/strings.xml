@@ -17,4 +17,8 @@
     <string name="slide_4_title">भयानक विषयों</string>
     <string name="standard_grid_text">मानक ग्रिड</string>
     <string name="start">यह मिल गया</string>
+    <string name="launch">शुरू</string>
+    <string name="new_section">नई</string>
+    <string name="all_section">सभी</string>
+    <string name="popular_section">लोकप्रिय</string>
 </resources>

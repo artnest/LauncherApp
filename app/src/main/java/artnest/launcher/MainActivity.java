@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity /*implements AppDrawerFragment.OnListFragmentInteractionListener*/ {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,9 +16,4 @@ public class MainActivity extends AppCompatActivity /*implements AppDrawerFragme
             getSupportFragmentManager().beginTransaction().add(R.id.activity_main, fragment).commit();
         }
     }
-
-    /*@Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Toast.makeText(MainActivity.this, item.name, Toast.LENGTH_SHORT).show();
-    }*/
 }

@@ -17,6 +17,5 @@
     <dimen name="desc_padding">40dp</dimen>
 
     <dimen name="pref_icon_width_height">96dp</dimen>
-    <item name="grid_weight" type="integer" format="float" >0.7</item>
-    <item name="themes_weight" type="integer" format="float">0.2</item>
+    <dimen name="pref_icon_margin">16dp</dimen>
 </resources>

@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/prefs_color"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:background="?attr/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="@integer/grid_weight"
-        android:weightSum="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:id="@+id/grids"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/pref_icon_margin">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/standard_grid"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_marginEnd="@dimen/pref_icon_margin"
+            android:layout_marginRight="@dimen/pref_icon_margin"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -27,8 +26,7 @@
                 android:id="@+id/standard_grid_icon"
                 android:layout_width="@dimen/pref_icon_width_height"
                 android:layout_height="@dimen/pref_icon_width_height"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/pref_icon_margin"
                 app:srcCompat="@drawable/ic_standard_grid" />
 
             <RadioButton
@@ -45,15 +43,15 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/standard_grid_size"
                 android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_marginLeft="@dimen/pref_icon_margin"
+            android:layout_marginStart="@dimen/pref_icon_margin"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -61,8 +59,7 @@
                 android:id="@+id/extended_grid_icon"
                 android:layout_width="@dimen/pref_icon_width_height"
                 android:layout_height="@dimen/pref_icon_width_height"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/pref_icon_margin"
                 app:srcCompat="@drawable/ic_extended_grid" />
 
             <RadioButton
@@ -78,41 +75,29 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/extended_grid_size"
                 android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="@integer/themes_weight"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="8dp">
+    <Switch
+        android:id="@+id/switch_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/content_inset_half"
+        android:switchPadding="@dimen/content_inset"
+        android:text="@string/dark_theme"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_marginBottom="@dimen/pref_icon_margin"/>
 
-        <RadioButton
-            android:id="@+id/light_theme_radio_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:checked="true"
-            android:text="@string/light_theme"
-            android:textStyle="italic"
-            android:textAppearance="?android:textAppearanceLarge" />
-
-        <RadioButton
-            android:id="@+id/dark_theme_radio_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/dark_theme"
-            android:textStyle="italic"
-            android:textAppearance="?android:textAppearanceLarge" />
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/launch"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

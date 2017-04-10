@@ -47,13 +47,13 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
         switch (section) {
             case 0:
-                viewHolder.mTextView.setText("popular");
+                viewHolder.mTextView.setText(R.string.popular_section);
                 break;
             case 1:
-                viewHolder.mTextView.setText("new");
+                viewHolder.mTextView.setText(R.string.new_section);
                 break;
             default:
-                viewHolder.mTextView.setText("all");
+                viewHolder.mTextView.setText(R.string.all_section);
         }
     }
 
@@ -107,7 +107,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
                 return new HeaderViewHolder(view);
             default:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.fragment_app_drawer_item, parent, false);
+                        .inflate(R.layout.list_item, parent, false);
                 return new AppViewHolder(view);
         }
     }

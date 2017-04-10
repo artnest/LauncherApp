@@ -2,10 +2,7 @@
     <string name="app_name" translatable="false">Cloud Launcher</string>
     <string name="menu_item_info">Info</string>
     <string name="menu_item_delete">Remove</string>
-    <string name="item_icon_description" translatable="false">Application Icon</string>
-    <string name="launcher_logo_description" translatable="false">Launcher Logo</string>
 
-    <string name="title_activity_welcome" translatable="false">Home Screen</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
@@ -27,4 +24,9 @@
     <string name="extended_grid_size" translatable="false">5 : 7</string>
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
+    <string name="launch">START</string>
+    <string name="popular_section">popular</string>
+    <string name="new_section">new</string>
+    <string name="all_section">all</string>
+
 </resources>

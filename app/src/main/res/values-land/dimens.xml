@@ -3,7 +3,6 @@
     <integer name="drawer_columns_standard">6</integer>
     <integer name="drawer_columns_extended">7</integer>
 
-    <dimen name="pref_icon_width_height">80dp</dimen>
-    <item name="grid_weight" type="integer" format="float">0.6</item>
-    <item name="themes_weight" type="integer" format="float">0.3</item>
+    <dimen name="pref_icon_width_height">108dp</dimen>
+    <dimen name="pref_icon_margin">18dp</dimen>
 </resources>

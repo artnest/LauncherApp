@@ -13,8 +13,12 @@
     <string name="slide_4_desc">Выберите одну из двух доступных тем!</string>
     <string name="slide_4_title">Крутые темы</string>
     <string name="start">ПОНЯТНО</string>
-    <string name="standard_grid_text">Стандартная сетка</string>
-    <string name="extended_grid_text">Расширенная сетка</string>
+    <string name="standard_grid_text">Стандартная</string>
+    <string name="extended_grid_text">Расширенная</string>
     <string name="light_theme">Светлая тема</string>
     <string name="dark_theme">Темная тема</string>
+    <string name="launch">СТАРТ</string>
+    <string name="popular_section">популярные</string>
+    <string name="new_section">новые</string>
+    <string name="all_section">все</string>
 </resources>

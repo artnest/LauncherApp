@@ -1,6 +1,7 @@
 package artnest.launcher;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,12 +16,13 @@ import java.util.List;
 
 import artnest.launcher.dummy.DummyContent;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class AppDrawerFragment extends Fragment {
 
-    public static boolean standardGrid = true;
-    public static int themeId = 0;
+    private static int gridType;
 
-    private static final int ICONS_COUNT = 8;
+    private static final int ICONS_COUNT = 10;
     private List<Integer> imageResources = new LinkedList<>();
 
     public static int mColumnCount = 2;
@@ -28,6 +30,9 @@ public class AppDrawerFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private AppDrawerAdapter mAdapter;
+
+    private SharedPreferences mPrefs;
+    private SharedPreferences.Editor mEditor;
 
     public AppDrawerFragment() {
     }
@@ -40,24 +45,16 @@ public class AppDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        switch (themeId) {
-            default:
+        retrieveSharedPreferences();
+        gridType = mPrefs.getInt(SettingsActivity.GRID_TYPE, 0);
+        switch (gridType) {
             case 0:
-                getActivity().setTheme(R.style.AppTheme);
-                themeId = 0; // TODO use SharedPreferences
+                mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
                 break;
             case 1:
-                getActivity().setTheme(R.style.AppThemeDark);
-                themeId = 0; // TODO use SharedPreferences
+                mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
                 break;
         }
-
-        if (standardGrid) {
-            mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_standard);
-        } else {
-            mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
-        }
-        standardGrid = true; // TODO use SharedPreferences
 
         if (DummyContent.ITEMS.isEmpty()) {
             for (int i = 0; i < ICONS_COUNT; i++) {
@@ -116,7 +113,7 @@ public class AppDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_app_drawer_list, container, false);
+        View view = inflater.inflate(R.layout.list, container, false);
 
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
@@ -131,5 +128,11 @@ public class AppDrawerFragment extends Fragment {
         mRecyclerView.getItemAnimator().setChangeDuration(0);
 
         return view;
+    }
+
+    private void retrieveSharedPreferences() {
+        mPrefs = getActivity().getSharedPreferences(PrefsManager.PREFS_NAME, MODE_PRIVATE);
+        mEditor = mPrefs.edit();
+        mEditor.apply();
     }
 }

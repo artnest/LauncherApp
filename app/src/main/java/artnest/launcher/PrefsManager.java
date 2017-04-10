@@ -8,19 +8,17 @@ public class PrefsManager {
     private SharedPreferences.Editor editor;
     private Context context;
 
-    private int PRIVATE_MODE = 0;
-
-    private static final String PREF_NAME = "cloud_launcher-welcome";
-    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    public static final String PREFS_NAME = "cloud_launcher";
+    private static final String IS_FIRST_TIME_LAUNCH = "first_time_launch";
 
     public PrefsManager(Context context) {
         this.context = context;
-        this.prefs = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         this.editor = prefs.edit();
         this.editor.apply();
     }
 
-    public void setIsFirstTimeLaunch(boolean isFirstTimeLaunch) {
+    public void setFirstTimeLaunch(boolean isFirstTimeLaunch) {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTimeLaunch);
         editor.commit();
     }
