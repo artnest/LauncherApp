@@ -95,6 +95,39 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
         viewHolder.mImageView.setOnClickListener(listener);
         viewHolder.mTextView.setOnClickListener(listener);
+
+        /*holder.mImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+                PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.mImageView, Gravity.END);
+                popupMenu.inflate(R.menu.options_menu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_item_info:
+                                Toast.makeText(v.getContext(), "Info", Toast.LENGTH_SHORT).show();
+                                updatePopularAppsRow(holder);
+                                return true;
+                            case R.id.menu_item_delete:
+                                mValues.remove(holder.getAdapterPosition());
+                                mPopularValues.remove(holder.mItem);
+                                mNewValues.remove(holder.getAdapterPosition());
+
+                                // notifyItemRemoved(holder.getAdapterPosition());
+                                notifyDataSetChanged();
+                                Toast.makeText(v.getContext(), "Removed", Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                popupMenu.show();
+                return true;
+            }
+        });*/
     }
 
     @Override
