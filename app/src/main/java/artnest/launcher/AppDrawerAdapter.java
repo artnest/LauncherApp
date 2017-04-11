@@ -2,6 +2,7 @@ package artnest.launcher;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,13 @@ import android.widget.Toast;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
-import java.util.Collections;
-
 import artnest.launcher.dummy.DummyContent;
 
 public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder>
         /*implements INameableAdapter*/ {
 
     private final Context context;
-    private static final int SECTION_COUNT = 3;
+    private ContextMenu.ContextMenuInfo mContextMenuInfo;
 
     public AppDrawerAdapter(Context context) {
         this.context = context;
@@ -27,7 +26,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
     @Override
     public int getSectionCount() {
-        return SECTION_COUNT;
+        return AppDrawerFragment.SECTION_COUNT;
     }
 
     @Override
@@ -76,58 +75,6 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
                 viewHolder.mTextView.setText(DummyContent.ITEMS.get(relativePosition).name);
                 viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
         }
-
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, viewHolder.mTextView.getText(), Toast.LENGTH_SHORT).show();
-
-                viewHolder.mItem.clicks++;
-                Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
-                DummyContent.POPULAR_ITEMS.clear();
-                for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
-                    DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
-                }
-
-                notifyItemRangeChanged(0, DummyContent.POPULAR_ITEMS.size() + 1);
-            }
-        };
-
-        viewHolder.mImageView.setOnClickListener(listener);
-        viewHolder.mTextView.setOnClickListener(listener);
-
-        /*holder.mImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.mImageView, Gravity.END);
-                popupMenu.inflate(R.menu.options_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_item_info:
-                                Toast.makeText(v.getContext(), "Info", Toast.LENGTH_SHORT).show();
-                                updatePopularAppsRow(holder);
-                                return true;
-                            case R.id.menu_item_delete:
-                                mValues.remove(holder.getAdapterPosition());
-                                mPopularValues.remove(holder.mItem);
-                                mNewValues.remove(holder.getAdapterPosition());
-
-                                // notifyItemRemoved(holder.getAdapterPosition());
-                                notifyDataSetChanged();
-                                Toast.makeText(v.getContext(), "Removed", Toast.LENGTH_SHORT).show();
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-
-                popupMenu.show();
-                return true;
-            }
-        });*/
     }
 
     @Override
@@ -156,7 +103,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         return c;
     }*/
 
-    public static class AppViewHolder extends RecyclerView.ViewHolder {
+    public class AppViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView mImageView;
         final TextView mTextView;
@@ -166,7 +113,29 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.icon);
             mTextView = (TextView) itemView.findViewById(R.id.name);
+
+            itemView.setOnClickListener(clickListener);
+            itemView.setOnLongClickListener(longClickListener);
         }
+
+        private View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, mTextView.getText(), Toast.LENGTH_SHORT).show();
+
+                mItem.clicks++;
+                AppDrawerFragment.notifyPopularItemRangedChanged();
+                notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
+            }
+        };
+
+        private View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                openContextMenu(getAdapterPosition(), v);
+                return true;
+            }
+        };
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -177,6 +146,50 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.section_name);
         }
+    }
 
+    public static class RecyclerContextMenuInfo implements ContextMenu.ContextMenuInfo {
+        final int position;
+        final int relativePosition;
+        final int absolutePosition;
+        final View targetView;
+
+        public RecyclerContextMenuInfo(int absolutePosition, View targetView) {
+            int position = absolutePosition;
+            if (position <= AppDrawerFragment.mColumnCount) {
+                position -= AppDrawerFragment.SECTION_COUNT - (AppDrawerFragment.SECTION_COUNT - 1);
+            } else if (position <= AppDrawerFragment.mColumnCount * 2 + 1) {
+                position -= AppDrawerFragment.SECTION_COUNT - (AppDrawerFragment.SECTION_COUNT - 2);
+            } else {
+                position -= AppDrawerFragment.SECTION_COUNT;
+            }
+
+            int relativePosition = position;
+            if (relativePosition >= AppDrawerFragment.mColumnCount) {
+                if (relativePosition <= AppDrawerFragment.mColumnCount * 2) {
+                    relativePosition -= AppDrawerFragment.mColumnCount;
+                } else {
+                    relativePosition -= AppDrawerFragment.mColumnCount * 2;
+                }
+            }
+
+            this.position = position;
+            this.relativePosition = relativePosition;
+            this.absolutePosition = absolutePosition;
+            this.targetView = targetView;
+        }
+    }
+
+    public ContextMenu.ContextMenuInfo getContextMenuInfo() {
+        return mContextMenuInfo;
+    }
+
+    public void openContextMenu(int position, View targetView) {
+        mContextMenuInfo = createContextMenuInfo(position, targetView);
+        targetView.showContextMenu();
+    }
+
+    private ContextMenu.ContextMenuInfo createContextMenuInfo(int position, View targetView) {
+        return new RecyclerContextMenuInfo(position, targetView);
     }
 }

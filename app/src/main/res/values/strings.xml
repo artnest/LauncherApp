@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Cloud Launcher</string>
-    <string name="menu_item_info">Info</string>
-    <string name="menu_item_delete">Remove</string>
+    <string name="info">Info</string>
+    <string name="remove">Remove</string>
+    <string name="removed">Removed</string>
 
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>

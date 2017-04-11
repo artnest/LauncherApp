@@ -3,12 +3,17 @@ package artnest.launcher;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -22,9 +27,10 @@ public class AppDrawerFragment extends Fragment {
 
     private static int gridType;
 
-    private static final int ICONS_COUNT = 10;
+    private static final int ICON_COUNT = 10;
     private List<Integer> imageResources = new LinkedList<>();
 
+    public static final int SECTION_COUNT = 3;
     public static int mColumnCount = 2;
     private GridLayoutManager mLayoutManager;
 
@@ -57,7 +63,7 @@ public class AppDrawerFragment extends Fragment {
         }
 
         if (DummyContent.ITEMS.isEmpty()) {
-            for (int i = 0; i < ICONS_COUNT; i++) {
+            for (int i = 0; i < ICON_COUNT; i++) {
                 imageResources.add(getResources().getIdentifier("@drawable/app_" + (i + 1),
                         "drawable",
                         getActivity().getPackageName()));
@@ -121,6 +127,7 @@ public class AppDrawerFragment extends Fragment {
         mAdapter = new AppDrawerAdapter(context);
         mLayoutManager = new GridLayoutManager(context, mColumnCount);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
         mAdapter.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
@@ -134,5 +141,66 @@ public class AppDrawerFragment extends Fragment {
         mPrefs = getActivity().getSharedPreferences(PrefsManager.PREFS_NAME, MODE_PRIVATE);
         mEditor = mPrefs.edit();
         mEditor.apply();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        registerForContextMenu(mRecyclerView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AppDrawerAdapter.RecyclerContextMenuInfo info =
+                (AppDrawerAdapter.RecyclerContextMenuInfo) mAdapter.getContextMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.info:
+                Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.delete:
+                int itemPosition = info.position;
+                if (itemPosition < mColumnCount) {
+                    DummyContent.POPULAR_ITEMS.remove(info.relativePosition);
+                    DummyContent.POPULAR_ALL_ITEMS.remove(info.relativePosition);
+
+                    notifyPopularItemRangedChanged();
+                    mAdapter.notifyItemRangeChanged(SECTION_COUNT - (SECTION_COUNT - 1), DummyContent.POPULAR_ITEMS.size());
+                } else if (itemPosition < mColumnCount * 2) {
+                    DummyContent.NEW_ITEMS.remove(info.relativePosition);
+                    DummyContent.NEW_ALL_ITEMS.remove(info.relativePosition);
+
+                    notifyNewItemRangedChanged();
+                    mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
+                } else {
+                    DummyContent.ITEMS.remove(info.relativePosition);
+                    mAdapter.notifyItemRemoved(info.absolutePosition);
+                }
+
+                Toast.makeText(getActivity(), getResources().getText(R.string.removed), Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public static void notifyPopularItemRangedChanged() {
+        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+        DummyContent.POPULAR_ITEMS.clear();
+        for (int i = 0; i < mColumnCount; i++) {
+            DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
+        }
+    }
+
+    public static void notifyNewItemRangedChanged() {
+        DummyContent.NEW_ITEMS.clear();
+        for (int i = 0; i < mColumnCount; i++) {
+            DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
+        }
     }
 }

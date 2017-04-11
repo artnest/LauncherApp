@@ -3,8 +3,8 @@
     <string name="dark_theme">अंधेरे विषय</string>
     <string name="extended_grid_text">विस्तारित ग्रिड</string>
     <string name="light_theme">प्रकाश विषय</string>
-    <string name="menu_item_delete">हटाना</string>
-    <string name="menu_item_info">जानकारी</string>
+    <string name="remove">हटाना</string>
+    <string name="info">जानकारी</string>
     <string name="next">अगले</string>
     <string name="skip">छोड़ें</string>
     <string name="slide_1_desc">सबसे सुंदर बार्बी आप कभी देखा है!</string>
@@ -21,4 +21,5 @@
     <string name="new_section">नई</string>
     <string name="all_section">सभी</string>
     <string name="popular_section">लोकप्रिय</string>
+    <string name="removed">हटा दिया</string>
 </resources>
