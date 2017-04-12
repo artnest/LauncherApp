@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="all_section">كل</string>
+    <string name="dark_theme">موضوع الظلام</string>
+    <string name="extended_grid_text">مدد الشبكة</string>
+    <string name="info">المعلومات</string>
+    <string name="launch">تبدأ</string>
+    <string name="light_theme">موضوع الضوء</string>
+    <string name="new_section">جديد</string>
+    <string name="next">القادم</string>
+    <string name="popular_section">شعبية</string>
+    <string name="remove">إزالة</string>
+    <string name="removed">تم إزالة</string>
+    <string name="skip">النهاية</string>
+    <string name="slide_1_desc">أجمل قاذفة رأيت من أي وقت مضى!</string>
+    <string name="slide_1_title">Cloud Launcher</string>
+    <string name="slide_2_title">ضوء واحد</string>
+    <string name="slide_3_desc">استخدامه بالطريقة التي تريدها مع اثنين من الشبكات!</string>
+    <string name="slide_3_title">شرح استخدام</string>
+    <string name="slide_4_desc">اختيار أي من المواضيع!</string>
+    <string name="slide_4_title">اختيار أي من المواضيع!</string>
+    <string name="standard_grid_text">القياسية الشبكة</string>
+    <string name="start">حصلت عليه</string>
+    <string name="slide_2_desc">سهلة الاستخدام و خفيف مثل الغيوم!</string>
+</resources>
