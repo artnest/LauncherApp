@@ -130,7 +130,6 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
                 mItem.clicks++;
                 AppDrawerFragment.notifyPopularItemRangeUpdated();
-                notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
             }
         };
 

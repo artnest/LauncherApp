@@ -52,8 +52,8 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
 
         layouts = new int[]{R.layout.welcome_slide1,
-                R.layout.welcome_slide2,
-                R.layout.welcome_slide3};
+                            R.layout.welcome_slide2,
+                            R.layout.welcome_slide3};
         addBottomDots(0);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -114,10 +114,8 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void finishIntro() {
-//        prefsManager.setFirstTimeLaunch(false); // comment to turn off first launch check
-//        prefsManager.setFirstTimeLaunch(true); // uncomment
-//        mEditor.putBoolean(IS_FIRST_TIME_LAUNCH, false);
-        mEditor.putBoolean(IS_FIRST_TIME_LAUNCH, true);
+        mEditor.putBoolean(IS_FIRST_TIME_LAUNCH, false); // comment to turn off first time launch check
+        // mEditor.putBoolean(IS_FIRST_TIME_LAUNCH, true); // uncomment
         mEditor.commit();
         startActivity(new Intent(WelcomeActivity.this, SettingsActivity.class));
         finish();

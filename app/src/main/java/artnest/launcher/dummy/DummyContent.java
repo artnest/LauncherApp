@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-// TODO: Replace all uses of this class before publishing your app.
 public class DummyContent {
 
     public static final List<DummyItem> ITEMS = new ArrayList<>();
@@ -15,7 +14,7 @@ public class DummyContent {
     public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
     public static final List<DummyItem> NEW_ALL_ITEMS = new LinkedList<>();
 
-    public static final int COUNT = 100;
+    public static final int COUNT = 10000;
 
     public static void populate(int iconId, int position) {
         DummyItem item = createDummyItem(iconId, position);

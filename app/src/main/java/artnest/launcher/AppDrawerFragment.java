@@ -149,6 +149,22 @@ public class AppDrawerFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
+        notifyNewItemRangeUpdated();
+        mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
+        notifyNewItemRangeUpdated();
+        mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
@@ -208,6 +224,14 @@ public class AppDrawerFragment extends Fragment {
         DummyContent.POPULAR_ITEMS.clear();
         for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
             DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
+        }
+    }
+
+    public static void notifyNewItemRangeUpdated() {
+        Collections.shuffle(DummyContent.NEW_ALL_ITEMS);
+        DummyContent.NEW_ITEMS.clear();
+        for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
+            DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
         }
     }
 }
