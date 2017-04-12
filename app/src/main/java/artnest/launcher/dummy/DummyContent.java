@@ -14,7 +14,7 @@ public class DummyContent {
     public static final List<DummyItem> NEW_ITEMS = new LinkedList<>();
     public static final List<DummyItem> NEW_ALL_ITEMS = new LinkedList<>();
 
-    public static final int COUNT = 10000;
+    public static final int COUNT = Integer.MAX_VALUE;
 
     public static void populate(int iconId, int position) {
         DummyItem item = createDummyItem(iconId, position);
