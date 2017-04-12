@@ -125,6 +125,7 @@ public class AppDrawerFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
 
         mAdapter = new AppDrawerAdapter(context);
+        mAdapter.setHasStableIds(true);
         mLayoutManager = new GridLayoutManager(context, mColumnCount);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -132,7 +133,6 @@ public class AppDrawerFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
                 .setIndicator(new AlphabetIndicator(view.getContext()), true); // FIXME: Make sections scroll work*/
-        mRecyclerView.getItemAnimator().setChangeDuration(0);
 
         return view;
     }
@@ -161,25 +161,30 @@ public class AppDrawerFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.info:
-                Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), info.viewHolder.mTextView.getText(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete:
-                int itemPosition = info.position;
-                if (itemPosition < mColumnCount) {
-                    DummyContent.POPULAR_ITEMS.remove(info.relativePosition);
-                    DummyContent.POPULAR_ALL_ITEMS.remove(info.relativePosition);
+                boolean removedFromPopular = DummyContent.POPULAR_ITEMS.remove(info.viewHolder.mItem);
+                DummyContent.POPULAR_ALL_ITEMS.remove(info.viewHolder.mItem);
+                boolean removedFromNew = DummyContent.NEW_ITEMS.remove(info.viewHolder.mItem);
+                DummyContent.NEW_ALL_ITEMS.remove(info.viewHolder.mItem);
+                DummyContent.ITEMS.remove(info.viewHolder.mItem);
 
-                    notifyPopularItemRangedChanged();
-                    mAdapter.notifyItemRangeChanged(SECTION_COUNT - (SECTION_COUNT - 1), DummyContent.POPULAR_ITEMS.size());
-                } else if (itemPosition < mColumnCount * 2) {
-                    DummyContent.NEW_ITEMS.remove(info.relativePosition);
-                    DummyContent.NEW_ALL_ITEMS.remove(info.relativePosition);
-
-                    notifyNewItemRangedChanged();
+                if (removedFromPopular && removedFromNew) {
+                    mAdapter.notifyDataSetChanged();
+                }
+                if (removedFromPopular && !removedFromNew) {
+                    notifyPopularItemRangeChanged();
+                    mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size()); // implement indexOf() (equals()) ?
+                    mAdapter.notifyItemRangeChanged(mColumnCount * 2 + SECTION_COUNT, DummyContent.ITEMS.size());
+                }
+                if (!removedFromPopular && removedFromNew) {
+                    notifyNewItemRangeChanged();
                     mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
-                } else {
-                    DummyContent.ITEMS.remove(info.relativePosition);
-                    mAdapter.notifyItemRemoved(info.absolutePosition);
+                    mAdapter.notifyItemRangeChanged(mColumnCount * 2 + SECTION_COUNT, DummyContent.ITEMS.size());
+                }
+                if (!removedFromPopular && !removedFromNew) {
+                    mAdapter.notifyItemRangeChanged(info.absolutePosition, DummyContent.ITEMS.size() - info.relativePosition);
                 }
 
                 Toast.makeText(getActivity(), getResources().getText(R.string.removed), Toast.LENGTH_SHORT).show();
@@ -189,18 +194,20 @@ public class AppDrawerFragment extends Fragment {
         }
     }
 
-    public static void notifyPopularItemRangedChanged() {
+    public static void notifyPopularItemRangeChanged() {
         Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
-        DummyContent.POPULAR_ITEMS.clear();
-        for (int i = 0; i < mColumnCount; i++) {
-            DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
-        }
+        DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(mColumnCount - 1));
     }
 
-    public static void notifyNewItemRangedChanged() {
-        DummyContent.NEW_ITEMS.clear();
-        for (int i = 0; i < mColumnCount; i++) {
-            DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
+    public static void notifyNewItemRangeChanged() {
+        DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(mColumnCount - 1));
+    }
+
+    public static void notifyPopularItemRangeUpdated() {
+        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
+        DummyContent.POPULAR_ITEMS.clear();
+        for (int i = 0; i < AppDrawerFragment.mColumnCount; i++) {
+            DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
         }
     }
 }

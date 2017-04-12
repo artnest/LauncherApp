@@ -25,6 +25,11 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
     }
 
     @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public int getSectionCount() {
         return AppDrawerFragment.SECTION_COUNT;
     }
@@ -124,7 +129,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
                 Toast.makeText(context, mTextView.getText(), Toast.LENGTH_SHORT).show();
 
                 mItem.clicks++;
-                AppDrawerFragment.notifyPopularItemRangedChanged();
+                AppDrawerFragment.notifyPopularItemRangeUpdated();
                 notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
             }
         };
@@ -132,7 +137,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         private View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                openContextMenu(getAdapterPosition(), v);
+                openContextMenu(getAdapterPosition(), AppViewHolder.this, v);
                 return true;
             }
         };
@@ -152,9 +157,10 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         final int position;
         final int relativePosition;
         final int absolutePosition;
+        final AppViewHolder viewHolder;
         final View targetView;
 
-        public RecyclerContextMenuInfo(int absolutePosition, View targetView) {
+        public RecyclerContextMenuInfo(int absolutePosition, AppViewHolder viewHolder, View targetView) {
             int position = absolutePosition;
             if (position <= AppDrawerFragment.mColumnCount) {
                 position -= AppDrawerFragment.SECTION_COUNT - (AppDrawerFragment.SECTION_COUNT - 1);
@@ -176,6 +182,7 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
             this.position = position;
             this.relativePosition = relativePosition;
             this.absolutePosition = absolutePosition;
+            this.viewHolder = viewHolder;
             this.targetView = targetView;
         }
     }
@@ -184,12 +191,12 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
         return mContextMenuInfo;
     }
 
-    public void openContextMenu(int position, View targetView) {
-        mContextMenuInfo = createContextMenuInfo(position, targetView);
+    public void openContextMenu(int position, AppViewHolder viewHolder, View targetView) {
+        mContextMenuInfo = createContextMenuInfo(position, viewHolder, targetView);
         targetView.showContextMenu();
     }
 
-    private ContextMenu.ContextMenuInfo createContextMenuInfo(int position, View targetView) {
-        return new RecyclerContextMenuInfo(position, targetView);
+    private ContextMenu.ContextMenuInfo createContextMenuInfo(int position, AppViewHolder viewHolder, View targetView) {
+        return new RecyclerContextMenuInfo(position, viewHolder, targetView);
     }
 }
