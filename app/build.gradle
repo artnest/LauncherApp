@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
         applicationId "artnest.launcher"
         minSdkVersion 15
@@ -12,10 +13,34 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
+        debug {
+            debuggable true
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def project = "CloudLauncher"
+            def SEPARATOR = "_"
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def version = variant.versionName
+            def date = new Date();
+            def formattedDate = date.format('ddMMyy_HHmm')
+
+            def newApkName = project + SEPARATOR +
+                             buildType + SEPARATOR +
+                             version + SEPARATOR +
+                             formattedDate +
+                             ".apk"
+
+            output.outputFile = new File(output.outputFile.parent, newApkName)
         }
     }
 }
@@ -26,11 +51,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
+
     compile 'com.afollestad:sectioned-recyclerview:0.2.3'
     compile 'com.github.turing-tech:MaterialScrollBar:12.3.5'
+    compile 'com.yandex.android:mobmetricalib:2.62'
+
     testCompile 'junit:junit:4.12'
 }

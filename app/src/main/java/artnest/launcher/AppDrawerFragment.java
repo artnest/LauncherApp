@@ -33,6 +33,8 @@ public class AppDrawerFragment extends Fragment {
     public static final int SECTION_COUNT = 3;
     public static int mColumnCount = 2;
     private GridLayoutManager mLayoutManager;
+//    private static final int INITIAL_COUNT = 30;
+//    private boolean loading = true;
 
     private RecyclerView mRecyclerView;
     private AppDrawerAdapter mAdapter;
@@ -62,24 +64,22 @@ public class AppDrawerFragment extends Fragment {
                 break;
         }
 
-        if (DummyContent.ITEMS.isEmpty()) {
+        if (imageResources.isEmpty()) {
             for (int i = 0; i < ICON_COUNT; i++) {
                 imageResources.add(getResources().getIdentifier("@drawable/app_" + (i + 1),
                         "drawable",
                         getActivity().getPackageName()));
             }
 
-
-            for (int i = 0; i < DummyContent.COUNT; i += mColumnCount) {
+            int count = mColumnCount;
+            for (int i = 0; i < DummyContent.COUNT/*INITIAL_COUNT*/; i += mColumnCount) {
                 Collections.shuffle(imageResources);
-                if (i + mColumnCount < DummyContent.COUNT) {
-                    for (int k = 0; k < mColumnCount; k++) {
-                        DummyContent.populate(imageResources.get(k), i + 1 + k);
-                    }
-                } else {
-                    for (int k = 0; k < DummyContent.COUNT - DummyContent.ITEMS.size(); k++) {
-                        DummyContent.populate(imageResources.get(k), i + 1 + k);
-                    }
+                if (i + mColumnCount >= DummyContent.COUNT/*INITIAL_COUNT*/) {
+                    count = DummyContent.COUNT/*INITIAL_COUNT*/ - DummyContent.ITEMS.size();
+                }
+
+                for (int k = 0; k < count; k++) {
+                    DummyContent.populate(imageResources.get(k), i + 1 + k);
                 }
             }
 
@@ -91,22 +91,6 @@ public class AppDrawerFragment extends Fragment {
 
         DummyContent.POPULAR_ITEMS.clear();
         DummyContent.NEW_ITEMS.clear();
-
-        /*for (int i = 0; i < DummyContent.POPULAR_ALL_ITEMS.size(); i++) {
-            DummyContent.POPULAR_ALL_ITEMS.get(i).clicks = 0;
-        }
-        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, new Comparator<DummyContent.DummyItem>() {
-            @Override
-            public int compare(DummyContent.DummyItem o1, DummyContent.DummyItem o2) {
-                return Integer.valueOf(Integer.parseInt(o1.name, 16))
-                        .compareTo(Integer.parseInt(o2.name, 16));
-            }
-        });
-
-        for (int i = mColumnCount; i < mColumnCount * 2; i++) {
-            DummyContent.POPULAR_ALL_ITEMS.get(i).clicks++;
-        }
-        Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());*/
 
         for (int i = 0; i < mColumnCount; i++) {
             DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
@@ -134,6 +118,31 @@ public class AppDrawerFragment extends Fragment {
         /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
                 .setIndicator(new AlphabetIndicator(view.getContext()), true); // FIXME: Make sections scroll work*/
 
+        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
+                            loading = false;
+
+                            Collections.shuffle(imageResources);
+                            for (int k = 0; k < mColumnCount; k++) {
+                                DummyContent.populate(imageResources.get(k), DummyContent.ITEMS.size() + k);
+                            }
+                            mAdapter.notifyItemRangeInserted(mLayoutManager.findLastVisibleItemPosition(), mColumnCount);
+
+                            loading = true;
+                        }
+                    }
+                }
+            }
+        });*/
+
         return view;
     }
 
@@ -151,14 +160,6 @@ public class AppDrawerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
-        notifyNewItemRangeUpdated();
-        mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
         mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
         notifyNewItemRangeUpdated();
         mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
