@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
+            return AppDrawerFragment.newInstance();
+            /*switch (position) {
                 case 0:
                     return AppDrawerFragment.newInstance();
                 default:
                     return AppFavoritesFragment.newInstance();
-            }
+            }*/
         }
 
         @Override

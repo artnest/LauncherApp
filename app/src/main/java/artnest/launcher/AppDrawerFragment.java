@@ -1,8 +1,13 @@
 package artnest.launcher;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,9 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,8 +38,6 @@ public class AppDrawerFragment extends Fragment {
     public static final int SECTION_COUNT = 3;
     public static int mColumnCount = 2;
     private GridLayoutManager mLayoutManager;
-//    private static final int INITIAL_COUNT = 30;
-//    private boolean loading = true;
 
     private RecyclerView mRecyclerView;
     private AppDrawerAdapter mAdapter;
@@ -64,7 +67,7 @@ public class AppDrawerFragment extends Fragment {
                 break;
         }
 
-        if (imageResources.isEmpty()) {
+        /*if (imageResources.isEmpty()) {
             for (int i = 0; i < ICON_COUNT; i++) {
                 imageResources.add(getResources().getIdentifier("@drawable/app_" + (i + 1),
                         "drawable",
@@ -72,10 +75,10 @@ public class AppDrawerFragment extends Fragment {
             }
 
             int count = mColumnCount;
-            for (int i = 0; i < DummyContent.COUNT/*INITIAL_COUNT*/; i += mColumnCount) {
+            for (int i = 0; i < DummyContent.COUNTINITIAL_COUNT; i += mColumnCount) {
                 Collections.shuffle(imageResources);
-                if (i + mColumnCount >= DummyContent.COUNT/*INITIAL_COUNT*/) {
-                    count = DummyContent.COUNT/*INITIAL_COUNT*/ - DummyContent.ITEMS.size();
+                if (i + mColumnCount >= DummyContent.COUNTINITIAL_COUNT) {
+                    count = DummyContent.COUNTINITIAL_COUNT - DummyContent.ITEMS.size();
                 }
 
                 for (int k = 0; k < count; k++) {
@@ -97,7 +100,7 @@ public class AppDrawerFragment extends Fragment {
         }
         for (int i = 0; i < mColumnCount; i++) {
             DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
-        }
+        }*/
     }
 
     @Override
@@ -108,42 +111,37 @@ public class AppDrawerFragment extends Fragment {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
 
-        mAdapter = new AppDrawerAdapter(context);
-        mAdapter.setHasStableIds(true);
         mLayoutManager = new GridLayoutManager(context, mColumnCount);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
+        setupAdapter(context);
+
+        return view;
+    }
+
+    private void setupAdapter(Context context) {
+        Intent startupIntent = new Intent(Intent.ACTION_MAIN);
+        startupIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        final PackageManager packageManager = getActivity().getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(startupIntent, 0);
+
+        Collections.sort(activities, new Comparator<ResolveInfo>() {
+            @Override
+            public int compare(ResolveInfo lhs, ResolveInfo rhs) {
+                return String.CASE_INSENSITIVE_ORDER
+                        .compare(lhs.loadLabel(packageManager).toString(),
+                                rhs.loadLabel(packageManager).toString());
+            }
+        });
+
+        mAdapter = new AppDrawerAdapter(context, activities);
+        mAdapter.setHasStableIds(true);
         mAdapter.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         /*((DragScrollBar) view.findViewById(R.id.drag_scroll_bar))
                 .setIndicator(new AlphabetIndicator(view.getContext()), true); // FIXME: Make sections scroll work*/
-
-        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    int visibleItemCount = mLayoutManager.getChildCount();
-                    int totalItemCount = mLayoutManager.getItemCount();
-                    int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
-
-                    if (loading) {
-                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                            loading = false;
-
-                            Collections.shuffle(imageResources);
-                            for (int k = 0; k < mColumnCount; k++) {
-                                DummyContent.populate(imageResources.get(k), DummyContent.ITEMS.size() + k);
-                            }
-                            mAdapter.notifyItemRangeInserted(mLayoutManager.findLastVisibleItemPosition(), mColumnCount);
-
-                            loading = true;
-                        }
-                    }
-                }
-            }
-        });*/
-
-        return view;
     }
 
     private void retrieveSharedPreferences() {
@@ -157,13 +155,13 @@ public class AppDrawerFragment extends Fragment {
         registerForContextMenu(mRecyclerView);
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         mAdapter.notifyItemRangeChanged(1, DummyContent.POPULAR_ITEMS.size());
-        notifyNewItemRangeUpdated();
+//        notifyNewItemRangeUpdated();
         mAdapter.notifyItemRangeChanged(mColumnCount + (SECTION_COUNT - 1), DummyContent.NEW_ITEMS.size());
-    }
+    }*/
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -178,10 +176,12 @@ public class AppDrawerFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.info:
-                Toast.makeText(getActivity(), info.viewHolder.mTextView.getText(), Toast.LENGTH_SHORT).show();
+                openAppSettings(info);
                 return true;
             case R.id.delete:
-                boolean removedFromPopular = DummyContent.POPULAR_ITEMS.remove(info.viewHolder.mItem);
+                uninstallApp(info);
+
+                /*boolean removedFromPopular = DummyContent.POPULAR_ITEMS.remove(info.viewHolder.mItem);
                 DummyContent.POPULAR_ALL_ITEMS.remove(info.viewHolder.mItem);
                 boolean removedFromNew = DummyContent.NEW_ITEMS.remove(info.viewHolder.mItem);
                 DummyContent.NEW_ALL_ITEMS.remove(info.viewHolder.mItem);
@@ -204,11 +204,30 @@ public class AppDrawerFragment extends Fragment {
                     mAdapter.notifyItemRangeChanged(info.absolutePosition, DummyContent.ITEMS.size() - info.relativePosition);
                 }
 
-                Toast.makeText(getActivity(), getResources().getText(R.string.removed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getText(R.string.removed), Toast.LENGTH_SHORT).show();*/
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void uninstallApp(AppDrawerAdapter.RecyclerContextMenuInfo info) {
+        Intent uninstallIntent = new Intent(
+                Intent.ACTION_UNINSTALL_PACKAGE,
+                Uri.parse("package:" + info.viewHolder.mResolveInfo.activityInfo.packageName));
+        startActivity(uninstallIntent);
+    }
+
+    private void openAppSettings(AppDrawerAdapter.RecyclerContextMenuInfo info) {
+        Intent settingsIntent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + info.viewHolder.mResolveInfo.activityInfo.packageName));
+        settingsIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+        startActivity(settingsIntent);
     }
 
     public static void notifyPopularItemRangeChanged() {

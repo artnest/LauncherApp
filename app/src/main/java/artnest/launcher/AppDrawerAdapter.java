@@ -1,6 +1,10 @@
 package artnest.launcher;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -8,20 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
-import artnest.launcher.dummy.DummyContent;
+import java.util.List;
 
 public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder>
         /*implements INameableAdapter*/ {
 
-    private final Context context;
+    private final Context mContext;
     private ContextMenu.ContextMenuInfo mContextMenuInfo;
+    private final List<ResolveInfo> mActivities;
+    private final PackageManager mPackageManager;
 
-    public AppDrawerAdapter(Context context) {
-        this.context = context;
+    public AppDrawerAdapter(Context context, List<ResolveInfo> activities) {
+        this.mContext = context;
+        this.mActivities = activities;
+        this.mPackageManager = context.getPackageManager();
     }
 
     @Override
@@ -36,13 +43,22 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
     @Override
     public int getItemCount(int section) {
-        switch (section) {
+        /*switch (section) {
             case 0:
                 return DummyContent.POPULAR_ITEMS.size();
             case 1:
                 return DummyContent.NEW_ITEMS.size();
             default:
                 return DummyContent.ITEMS.size();
+        }*/
+
+        switch (section) {
+            case 0:
+                return 4; // TODO change to actual size
+            case 1:
+                return 4; // TODO change to actual size
+            default:
+                return mActivities.size();
         }
     }
 
@@ -64,22 +80,25 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int section, int relativePosition, int absolutePosition) {
         final AppViewHolder viewHolder = (AppViewHolder) holder;
-        switch (section) {
+        /*switch (section) {
             case 0:
                 viewHolder.mImageView.setImageResource(DummyContent.POPULAR_ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.POPULAR_ITEMS.get(relativePosition).name);
-                viewHolder.mItem = DummyContent.POPULAR_ITEMS.get(relativePosition);
+//                viewHolder.mItem = DummyContent.POPULAR_ITEMS.get(relativePosition);
                 break;
             case 1:
                 viewHolder.mImageView.setImageResource(DummyContent.NEW_ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.NEW_ITEMS.get(relativePosition).name);
-                viewHolder.mItem = DummyContent.NEW_ITEMS.get(relativePosition);
+//                viewHolder.mItem = DummyContent.NEW_ITEMS.get(relativePosition);
                 break;
             default:
                 viewHolder.mImageView.setImageResource(DummyContent.ITEMS.get(relativePosition).iconId);
                 viewHolder.mTextView.setText(DummyContent.ITEMS.get(relativePosition).name);
-                viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
-        }
+//                viewHolder.mItem = DummyContent.ITEMS.get(relativePosition);
+                viewHolder.mItem = mActivities.get(relativePosition);
+        }*/
+
+        viewHolder.bindApp(mActivities.get(relativePosition));
     }
 
     @Override
@@ -110,26 +129,37 @@ public class AppDrawerAdapter extends SectionedRecyclerViewAdapter<RecyclerView.
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
 
+        ResolveInfo mResolveInfo;
+
         final ImageView mImageView;
         final TextView mTextView;
-        DummyContent.DummyItem mItem;
 
         public AppViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.icon);
-            mTextView = (TextView) itemView.findViewById(R.id.name);
+            mTextView = (TextView) itemView.findViewById(R.id.label);
 
             itemView.setOnClickListener(clickListener);
             itemView.setOnLongClickListener(longClickListener);
         }
 
+        public void bindApp(ResolveInfo resolveInfo) {
+            mResolveInfo = resolveInfo;
+
+            Drawable appIcon = mResolveInfo.loadIcon(mPackageManager);
+            mImageView.setImageDrawable(appIcon);
+            String appName = mResolveInfo.loadLabel(mPackageManager).toString();
+            mTextView.setText(appName);
+        }
+
         private View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, mTextView.getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = mPackageManager.getLaunchIntentForPackage(mResolveInfo.activityInfo.applicationInfo.packageName);
+                mContext.startActivity(intent);
 
-                mItem.clicks++;
-                AppDrawerFragment.notifyPopularItemRangeUpdated();
+//                mItem.clicks++;
+//                AppDrawerFragment.notifyPopularItemRangeUpdated();
             }
         };
 

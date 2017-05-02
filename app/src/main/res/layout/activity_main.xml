@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_main"
-    tools:context="artnest.launcher.MainActivity">
+    tools:mContext="artnest.launcher.MainActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/apps_view_pager"
