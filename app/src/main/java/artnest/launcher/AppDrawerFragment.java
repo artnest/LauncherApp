@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 import artnest.launcher.dummy.DummyContent;
@@ -31,10 +30,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class AppDrawerFragment extends Fragment {
 
     private static int gridType;
-
-    private static final int ICON_COUNT = 10;
-    private List<Integer> imageResources = new LinkedList<>();
-
     public static final int SECTION_COUNT = 3;
     public static int mColumnCount = 2;
     private GridLayoutManager mLayoutManager;
@@ -66,41 +61,6 @@ public class AppDrawerFragment extends Fragment {
                 mColumnCount = getActivity().getResources().getInteger(R.integer.drawer_columns_extended);
                 break;
         }
-
-        /*if (imageResources.isEmpty()) {
-            for (int i = 0; i < ICON_COUNT; i++) {
-                imageResources.add(getResources().getIdentifier("@drawable/app_" + (i + 1),
-                        "drawable",
-                        getActivity().getPackageName()));
-            }
-
-            int count = mColumnCount;
-            for (int i = 0; i < DummyContent.COUNTINITIAL_COUNT; i += mColumnCount) {
-                Collections.shuffle(imageResources);
-                if (i + mColumnCount >= DummyContent.COUNTINITIAL_COUNT) {
-                    count = DummyContent.COUNTINITIAL_COUNT - DummyContent.ITEMS.size();
-                }
-
-                for (int k = 0; k < count; k++) {
-                    DummyContent.populate(imageResources.get(k), i + 1 + k);
-                }
-            }
-
-            for (int i = mColumnCount; i < mColumnCount * 2; i++) {
-                DummyContent.POPULAR_ALL_ITEMS.get(i).clicks++;
-            }
-            Collections.sort(DummyContent.POPULAR_ALL_ITEMS, Collections.<DummyContent.DummyItem>reverseOrder());
-        }
-
-        DummyContent.POPULAR_ITEMS.clear();
-        DummyContent.NEW_ITEMS.clear();
-
-        for (int i = 0; i < mColumnCount; i++) {
-            DummyContent.POPULAR_ITEMS.add(DummyContent.POPULAR_ALL_ITEMS.get(i));
-        }
-        for (int i = 0; i < mColumnCount; i++) {
-            DummyContent.NEW_ITEMS.add(DummyContent.NEW_ALL_ITEMS.get(i));
-        }*/
     }
 
     @Override
